@@ -1,0 +1,61 @@
+/* Header.css */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header__logo img {
+    height: 40px;
+  }
+  
+  .header__search input {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+  }
+  
+  .header__profile {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .profile__icon {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .profile__dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    z-index: 1000;
+  }
+  
+  .profile__dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .profile__dropdown li {
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .profile__dropdown li:hover {
+    background-color: #f1f1f1;
+  }
+  

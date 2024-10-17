@@ -1,0 +1,38 @@
+[
+    {
+      "category": "Billed Members",
+      "description": "Working directly on client projects",
+      "path": "/billed_members"
+    },
+    {
+      "category": "Unbilled Members",
+      "description": "Employees currently not working on client projects",
+      "path": "/unbilled_members"
+    },
+    {
+      "category": "Bench Members",
+      "description": "Not assigned to any project, either client-based or internal, and are waiting for the next assignment",
+      "path": "/bench_members"
+    },
+    {
+      "category": "Unbenched Members",
+      "description": "They are either billable or working on an assignment",
+      "path": "/unbenched_members"
+    },
+    {
+      "category": "Shadow Resources",
+      "description": "Employees who are in training or learning stages, typically shadowing senior members of the project to understand processes, tools, and technologies",
+      "path": "/shadow_resources"
+    },
+    {
+      "category": "Partially Billable Members",
+      "description": "Employees split their time between billable and non-billable work",
+      "path": "/partially_billable"
+    },
+    {
+      "category": "Project Buffer Members",
+      "description": "Companies keep a small team ready as a buffer, not necessarily on the bench but prepared to be deployed on new or expanding projects. This group might not be working on specific billable tasks but is kept available for rapid development",
+      "path": "/project_buffer_members"
+    }
+  ]
+  

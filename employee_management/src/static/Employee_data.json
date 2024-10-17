@@ -1,0 +1,33 @@
+[
+    {
+      "id": 1,
+      "name": "Alice Johnson",
+      "skills": ["JavaScript", "React", "Node.js"],
+      "location": "Kochi"
+    },
+    {
+      "id": 2,
+      "name": "Bob Smith",
+      "skills": ["Java", "Spring", "Hibernate"],
+      "location": "TVM"
+    },
+    {
+      "id": 3,
+      "name": "Charlie Brown",
+      "skills": ["Python", "Django", "Flask"],
+      "location": "Chennai"
+    },
+    {
+      "id": 4,
+      "name": "David Wilson",
+      "skills": ["C#", ".NET", "Azure"],
+      "location": "Kochi"
+    },
+    {
+      "id": 5,
+      "name": "Eve Davis",
+      "skills": ["HTML", "CSS", "JavaScript"],
+      "location": "Kochi"
+    }
+  ]
+  
