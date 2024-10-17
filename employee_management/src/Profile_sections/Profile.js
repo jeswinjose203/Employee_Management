@@ -3,14 +3,15 @@ import { Button, Upload, Input, Select, Form, Space, Row, Col, Avatar, Modal } f
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import skillsData from '../static/skills.json'; // Importing skills from the JSON file
+import logo from '../image/logo.png'; // Import logo
 
 const { Option } = Select;
 
-const Profile = () => {
+const Profile = ({ setProfilePhoto }) => {
+  const [localPhoto, setLocalPhoto] = useState(logo); // Set initial state to logo image
   const navigate = useNavigate();
   const [skills] = useState(skillsData.skills);  // Load skills from JSON file
-  const [profilePhoto, setProfilePhoto] = useState(null);  // State to handle profile photo
-  const [isResetPasswordVisible, setIsResetPasswordVisible] = useState(false);  // State to handle password reset modal
+  const [isResetPasswordVisible, setIsResetPasswordVisible] = useState(false);
 
   // Handle form submission
   const handleFormSubmit = (values) => {
@@ -22,7 +23,8 @@ const Profile = () => {
   const handleUpload = ({ file }) => {
     const reader = new FileReader();
     reader.onload = () => {
-      setProfilePhoto(reader.result);  // Set the uploaded image as profile photo
+      setLocalPhoto(reader.result);
+      setProfilePhoto(reader.result);   // Set the uploaded image as profile photo
     };
     reader.readAsDataURL(file);
     return false;  // Prevent automatic upload for custom handling
@@ -45,7 +47,6 @@ const Profile = () => {
   // Handle password reset submission
   const handlePasswordResetSubmit = (values) => {
     console.log('Password Reset Values:', values);
-    // Add logic to reset password here
     setIsResetPasswordVisible(false);  // Close the modal after submission
   };
 
@@ -61,8 +62,8 @@ const Profile = () => {
         <Col xs={24} sm={6} style={{ textAlign: 'center' }}>
           <Avatar
             size={150}
-            icon={profilePhoto ? null : <UserOutlined />}  // Default icon if no profile photo
-            src={profilePhoto}  // Display uploaded photo if exists
+            icon={localPhoto ? null : <UserOutlined />}  // Default icon if no profile photo
+            src={localPhoto}  // Display uploaded photo if exists
           />
           <Form.Item label="Profile Photo" name="profilePhoto" style={{ marginTop: '20px' }}>
             <Upload beforeUpload={handleUpload} showUploadList={false}>

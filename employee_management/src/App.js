@@ -1,8 +1,7 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React,{ useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { Layout } from 'antd';
 import Header from './Header'; // Assuming this is your custom Header component
-//import LeftSider from './LeftSider'; // Left sidebar component
 import MainContent from './MainContent'; // Main content component
 import AppFooter from './Footer'; // Footer component
 import BilledMembers from './Categoricals/BilledMembers';
@@ -17,49 +16,51 @@ import Signup from './Signup';
 import Login from './Login';
 
 const { Content } = Layout;
+
 function App() {
   return (
     <Router>
-      <div className="App">
-        <Layout style={{ minHeight: '100vh' }}>
-          {/* Header */}
-          <Header style={{ background: '#fff', padding: 0 }} />
-
-          {/* Main Layout with Sidebar and Content */}
-          <Layout>
-            {/* Left Sidebar */}
-            
-              {/* <LeftSider /> */}
-            
-            {/* Main Content Area with Routes */}
-            <Content style={{ padding: '15', background: '#fff' }}>
-  <Routes>
-    <Route path="/" element={<Login/>} />
-    <Route path="/login" element={<Login />} />
-    <Route path="/MainContent" element={<MainContent />} />
-    <Route path="/signup" element={<Signup />} />
-    <Route path="/login" element={<Login />} />
-    <Route path="/billed_members" element={<BilledMembers />} />
-    <Route path="/unbilled_members" element={<UnBilled_Members />} />
-    <Route path="/bench_members" element={<Bench_Members />} />
-    <Route path="/unbenched_members" element={<UnBenched_Members />} />
-    <Route path="/shadow_resources" element={<Shadow_Resources />} />
-    <Route path="/partially_billable" element={<Partially_Billable />} />
-    <Route path="/project_buffer_members" element={<Project_Buffer_Members />} />
-    <Route path="/profile" element={<Profile />} />   
-  </Routes>
-</Content>
-
-
-            {/* Right Sidebar */}
-
-          </Layout>
-
-          {/* Footer */}
-          <AppFooter />
-        </Layout>
-      </div>
+      <AppContent />
     </Router>
+  );
+}
+
+function AppContent() {
+  const location = useLocation();
+  const [profilePhoto, setProfilePhoto] = useState(null);
+  return (
+    <div className="App">
+      <Layout style={{ minHeight: '100vh' }}>
+        
+        {/* Render Header only if the path is not "/login" or "/signup" */}
+        {location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/signup' && (
+          <Header profilePhoto={profilePhoto} style={{ background: '#fff', padding: 0 }} />
+        )}
+
+        {/* Main Layout with Sidebar and Content */}
+        <Layout>
+          <Content style={{ padding: '15', background: '#fff' }}>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/MainContent" element={<MainContent />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/billed_members" element={<BilledMembers />} />
+              <Route path="/unbilled_members" element={<UnBilled_Members />} />
+              <Route path="/bench_members" element={<Bench_Members />} />
+              <Route path="/unbenched_members" element={<UnBenched_Members />} />
+              <Route path="/shadow_resources" element={<Shadow_Resources />} />
+              <Route path="/partially_billable" element={<Partially_Billable />} />
+              <Route path="/project_buffer_members" element={<Project_Buffer_Members />} />
+              <Route path="/profile" element={<Profile setProfilePhoto={setProfilePhoto} />} />
+            </Routes>
+          </Content>
+        </Layout>
+
+        {/* Footer */}
+        <AppFooter />
+      </Layout>
+    </div>
   );
 }
 

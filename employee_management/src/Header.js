@@ -1,18 +1,24 @@
-// Header.js
-
 import React, { useState } from 'react';
 import './Header.css';
+import { Link } from 'react-router-dom';
+import { Avatar } from 'antd';
 import { FaUserCircle } from 'react-icons/fa';
 import logo from "./image/logo.png";
-// import MyProfile from "./MyProfile";
-// import settings from "./Settings";
-import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({ profilePhoto }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  let timeoutId;
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
+  const handleMouseEnter = () => {
+    clearTimeout(timeoutId);  // Clear any existing timeout
+    setShowDropdown(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Set a delay to keep the dropdown open momentarily
+    timeoutId = setTimeout(() => {
+      setShowDropdown(false);
+    }, 500);  // Adjust delay as needed (500ms here)
   };
 
   return (
@@ -22,20 +28,25 @@ const Header = () => {
         <img src={logo} alt="Logo" />
       </div>
 
-      {/* Search Bar
-      <div className="header__search">
-        <input type="text" placeholder="Search..." />
-      </div> */}
-
       {/* Profile Icon with Dropdown */}
-      <div className="header__profile">
-        <FaUserCircle className="profile__icon" onClick={toggleDropdown} />
+      <div
+        className="header__profile"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Avatar
+          src={profilePhoto}  // Show uploaded photo if available
+          icon={!profilePhoto && <FaUserCircle />} // Fallback to icon if no photo
+          className="profile__icon"
+          size={40}  // Adjust size as needed
+        />
         {showDropdown && (
           <div className="profile__dropdown">
             <ul>
               <li>
                 <Link to="/profile">Profile</Link>
-                </li>
+              </li>
+              {/* Add other dropdown items as needed */}
             </ul>
           </div>
         )}
