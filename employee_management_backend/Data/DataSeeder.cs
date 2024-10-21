@@ -1,0 +1,72 @@
+using System;
+using System.Linq;
+using employee_management_backend.Models;
+
+namespace employee_management_backend.Data
+{
+    public class DataSeeder
+    {
+        public static void SeedData()
+        {
+            using (var context = new AppDbContext())
+            {
+                // Check if the table is empty
+                if (!context.Products.Any())
+                {
+                    var product = new Product
+                    {
+                        EmpCode = 1,  // Set a unique EmpCode (Primary Key)
+                        EmpName = "John Doe",  // Set employee name
+                        Location = "New York",  // Set employee location
+                        ProfilePhoto = "path/to/photo.jpg",  // Set path to profile photo
+                        Skills = "C#, .NET, SQL",  // Set employee skills
+                        MemberStatus = "Active",  // Set member status
+                        MemberWorkingOn = "Project A",  // Set current project
+                        ProjectDesc = "This project involves developing a web application.",  // Set project description
+                        Password = "SecurePassword123",  // Set password
+                        Email = "john.doe@example.com"  // Set email
+                    };
+
+                    // Add the product to the context and save changes
+                    context.Products.Add(product);
+                    context.SaveChanges();
+                    Console.WriteLine("Product added successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("Table already has data.");
+                }
+            }
+        }
+
+
+        // 1. Function to get an employee by EmpCode
+        public static Product GetEmployeeByEmpCode(int empCode)
+        {
+            using (var context = new AppDbContext())
+            {
+                var employee = context.Products.FirstOrDefault(p => p.EmpCode == empCode);
+                return employee;
+            }
+        }
+
+        // 2. Function to get all employees
+        public static List<Product> GetAllEmployees()
+        {
+            using (var context = new AppDbContext())
+            {
+                var employees = context.Products.ToList();
+                return employees;
+            }
+        }
+
+        // 3. Function to check if an employee exists by EmpCode
+        public static bool EmployeeExists(int empCode)
+        {
+            using (var context = new AppDbContext())
+            {
+                return context.Products.Any(p => p.EmpCode == empCode);
+            }
+        }
+    }
+}

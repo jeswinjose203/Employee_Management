@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "SE6c9K8YHse4Ag1cWz0p+UcYsUkxfsOZT4elOJ3VzCE=",
+  "Source": "employee_management_backend",
+  "BasePath": "_content/employee_management_backend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
