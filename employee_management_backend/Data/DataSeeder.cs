@@ -69,7 +69,7 @@ namespace employee_management_backend.Data
             }
         }
 
-
+        //4. Function to delete a particular employee using EmpCode
          public static bool DeleteEmployeeByEmpCode(int empCode)
         {
             using (var context = new AppDbContext())
