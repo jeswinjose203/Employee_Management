@@ -41,7 +41,7 @@ namespace employee_management_backend.Data
 
 
         // 1. Function to get an employee by EmpCode
-        public static Product GetEmployeeByEmpCode(int empCode)
+        public static Product? GetEmployeeByEmpCode(int empCode)
         {
             using (var context = new AppDbContext())
             {
@@ -66,6 +66,28 @@ namespace employee_management_backend.Data
             using (var context = new AppDbContext())
             {
                 return context.Products.Any(p => p.EmpCode == empCode);
+            }
+        }
+
+
+         public static bool DeleteEmployeeByEmpCode(int empCode)
+        {
+            using (var context = new AppDbContext())
+            {
+                var employee = context.Products.FirstOrDefault(p => p.EmpCode == empCode);
+
+                if (employee != null)
+                {
+                    context.Products.Remove(employee);  // Remove the employee from the context
+                    context.SaveChanges();  // Save changes to persist the removal
+                    Console.WriteLine($"Employee with EmpCode {empCode} deleted successfully.");
+                    return true;  // Return true to indicate the employee was deleted
+                }
+                else
+                {
+                    Console.WriteLine($"Employee with EmpCode {empCode} not found.");
+                    return false;  // Return false to indicate no employee was found
+                }
             }
         }
     }
