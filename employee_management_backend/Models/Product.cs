@@ -23,4 +23,12 @@ namespace employee_management_backend.Models
         public required string Email { get; set; }
         public required string Position { get; set; }
     }
+
+     public class LoginRequest
+    {
+        public required int EmpCode { get; set; }  // Primary key
+        public required string Password { get; set; }
+    }
+ 
+
 }

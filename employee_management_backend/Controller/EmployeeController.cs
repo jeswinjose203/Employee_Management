@@ -85,4 +85,36 @@ public class EmployeeController : ControllerBase
         return BadRequest(new { message = "Invalid employee data provided." });
     }
 
+    [HttpPost("login")]
+public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+{
+    // Validate request
+    if (loginRequest.EmpCode == 0 || string.IsNullOrEmpty(loginRequest.Password))
+    {
+        return BadRequest(new { message = "Employee Code and Password are required." });
+    }
+
+    // Check if the employee exists in the database
+    var employee = DataSeeder.GetEmployeeByEmpCode(loginRequest.EmpCode);
+    if (employee == null)
+    {
+        return Unauthorized(new { message = "Employee not found. Please sign up." });
+    }
+
+    // Check if the password is correct
+    if (employee.Password == loginRequest.Password)
+    {
+        // Console.WriteLine(employee.Password);
+        // Console.WriteLine(loginRequest.Password);
+        // In a real application, you would return a token or session information
+        return Ok(new { message = "Login successful", employeeId = loginRequest.EmpCode });
+    }
+    else
+    {
+        return Unauthorized(new { message = "Invalid credentials. Please try again." });
+    }
+}
+
+
+
 }
