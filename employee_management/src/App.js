@@ -14,6 +14,7 @@ import Project_Buffer_Members from './Categoricals/Project_Buffer_Members';
 import Profile from './Profile_sections/Profile';
 import Signup from './Signup';
 import Login from './Login';
+import logo from './image/logo.png'; // Import logo
 
 const { Content } = Layout;
 
@@ -28,13 +29,18 @@ function App() {
 function AppContent() {
   const location = useLocation();
   const [profilePhoto, setProfilePhoto] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const handleImageUpload = (url) => {
+    setImageUrl(url);
+  };
+
   return (
     <div className="App">
       <Layout style={{ minHeight: '100vh' }}>
         
         {/* Render Header only if the path is not "/login" or "/signup" */}
         {location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/signup' && (
-          <Header profilePhoto={profilePhoto} style={{ background: '#fff', padding: 0 }} />
+          <Header imageUrl={imageUrl} style={{ background: '#fff', padding: 0 }} />
         )}
 
         {/* Main Layout with Sidebar and Content */}
@@ -52,7 +58,8 @@ function AppContent() {
               <Route path="/shadow_resources" element={<Shadow_Resources />} />
               <Route path="/partially_billable" element={<Partially_Billable />} />
               <Route path="/project_buffer_members" element={<Project_Buffer_Members />} />
-              <Route path="/profile" element={<Profile setProfilePhoto={setProfilePhoto} />} />
+              <Route path="/profile" element={<Profile profilePhoto='profilePhoto' setProfilePhoto={setProfilePhoto}  />} />
+              {/* profilePhoto={profilePhoto} setProfilePhoto={setProfilePhoto} */}
             </Routes>
           </Content>
         </Layout>

@@ -9,7 +9,7 @@ namespace employee_management_backend.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql(@"Server=localhost;Database=new_schema;User=root;Password=Jenbros@23;",
+            optionsBuilder.UseMySql(@"Server=localhost;Database=new_schema;User=root;Password=BhjaBhra@123;",
     new MySqlServerVersion(new Version(8, 0, 21)));
         }
          protected override void OnModelCreating(ModelBuilder modelBuilder)

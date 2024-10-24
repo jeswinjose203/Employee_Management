@@ -11,7 +11,7 @@ using employee_management_backend.Data;
 namespace employee_management_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241024045919_InitialCreate")]
+    [Migration("20241024082817_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

@@ -5,7 +5,7 @@ import { Avatar } from 'antd';
 import { FaUserCircle } from 'react-icons/fa';
 import logo from "./image/logo.png";
 
-const Header = ({ profilePhoto }) => {
+const Header = ({ imageUrl }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   let timeoutId;
 
@@ -35,8 +35,8 @@ const Header = ({ profilePhoto }) => {
         onMouseLeave={handleMouseLeave}
       >
         <Avatar
-          src={profilePhoto}  // Show uploaded photo if available
-          icon={!profilePhoto && <FaUserCircle />} // Fallback to icon if no photo
+          src={imageUrl}  // Show uploaded photo if available
+          icon={!imageUrl && <FaUserCircle />} // Fallback to icon if no photo
           className="profile__icon"
           size={40}  // Adjust size as needed
         />
