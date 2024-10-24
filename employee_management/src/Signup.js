@@ -89,12 +89,12 @@ const Button = styled.button`
 
 export default function Signup() {
     const [formData, setFormData] = useState({
-        name: '',
-        employeeId: '',
-        email: '',
-        password: '',
+        EmpName: '',
+        EmpCode: '',
+        Email: '',
+        Password: '',
         confirmPassword: '',
-        position: ''
+        Position: ''
     });
 
     const handleChange = (e) => {
@@ -102,15 +102,38 @@ export default function Signup() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post('http://localhost:5239/api/auth/signup', formData);
-            alert("Signup successful!");
-        } catch (error) {
-            console.error("Error during signup:", error);
-            alert("Signup failed.");
-        }
-    };
+      e.preventDefault();
+  
+      if (formData.Password !== formData.confirmPassword) {
+          alert("Passwords do not match!");
+          return;
+      }
+  
+      try {
+          const response = await axios.post('http://localhost:5001/employee/signup', {
+              EmpName: formData.EmpName,
+              EmpCode: formData.EmpCode,
+              Email: formData.Email,
+              Password: formData.Password,
+              Position: formData.Position
+          });
+  
+          // Check the message from the backend response
+          if (response.data.message === "Employee with this EmpCode already exists.") {
+              alert("Employee already exists. Redirecting to login.");
+              // Redirect to login or another page
+              window.location.href = "/login";
+          } else {
+              alert("Signup successful!");
+              // Redirect to another page on success
+              window.location.href = "/dashboard";
+          }
+      } catch (error) {
+          console.error("Error during signup:", error);
+          alert("Signup failed.");
+      }
+  };
+  
 
     return (
         <SignupContainer>
@@ -119,19 +142,19 @@ export default function Signup() {
                     <Title>Sign Up</Title>
                     <InputWrapper>
                         <Icon><FaUser /></Icon>
-                        <Input name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
+                        <Input name="EmpName" placeholder="Your Name" value={formData.EmpName} onChange={handleChange} required />
                     </InputWrapper>
                     <InputWrapper>
                         <Icon><FaIdBadge /></Icon>
-                        <Input name="employeeId" placeholder="Employee ID" value={formData.employeeId} onChange={handleChange} required />
+                        <Input name="EmpCode" placeholder="Employee ID" value={formData.EmpCode} onChange={handleChange} required />
                     </InputWrapper>
                     <InputWrapper>
                         <Icon><FaEnvelope /></Icon>
-                        <Input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
+                        <Input type="email" name="Email" placeholder="Your Email" value={formData.Email} onChange={handleChange} required />
                     </InputWrapper>
                     <InputWrapper>
                         <Icon><FaLock /></Icon>
-                        <Input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+                        <Input type="password" name="Password" placeholder="Password" value={formData.Password} onChange={handleChange} required />
                     </InputWrapper>
                     <InputWrapper>
                         <Icon><FaKey /></Icon>
@@ -139,7 +162,7 @@ export default function Signup() {
                     </InputWrapper>
                     <InputWrapper>
                         <Icon><FaBriefcase /></Icon>
-                        <Input name="position" placeholder="Position" value={formData.position} onChange={handleChange} required />
+                        <Input name="Position" placeholder="Position" value={formData.Position} onChange={handleChange} required />
                     </InputWrapper>
                     <CheckboxLabel>
                         <input type="checkbox" required /> I agree to all statements in <a href="/terms">Terms of service</a>

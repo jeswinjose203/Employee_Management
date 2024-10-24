@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using employee_management_backend.Data;
+
 namespace employee_management_backend
 {
     class Program
@@ -10,26 +11,43 @@ namespace employee_management_backend
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container if needed, like a database context or dependency injections
-            builder.Services.AddControllers(); // If you want to use controllers
+            // Add services to the container
+            builder.Services.AddControllers();
+
+            // Configure CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigins",
+                    builder => builder.WithOrigins("http://localhost:3000")  // Allow requests from your React frontend
+                                      .AllowAnyHeader()    // Allow any headers
+                                      .AllowAnyMethod()    // Allow any HTTP method (GET, POST, etc.)
+                                      .AllowCredentials());  // Allow sending credentials (like cookies)
+            });
 
             var app = builder.Build();
 
             // Middleware pipeline configuration
             if (app.Environment.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage(); // For development environment, show detailed error pages
+                app.UseDeveloperExceptionPage(); // Show detailed error pages in development
             }
 
             app.UseHttpsRedirection(); // Ensure HTTPS redirection
 
             app.UseRouting(); // Enables routing
 
+            // Apply CORS policy
+            app.UseCors("AllowSpecificOrigins");
+
             app.UseAuthorization(); // Add authorization middleware
 
             // Map routes to controllers
-            app.MapControllers(); // If you have controller endpoints
+            app.MapControllers(); // Map controller routes
+
+            // Seed data
             DataSeeder.SeedData();
+
+            // Fetch an employee for testing purposes (optional)
             var employee = DataSeeder.GetEmployeeByEmpCode(1);
             if (employee != null)
             {
@@ -39,6 +57,7 @@ namespace employee_management_backend
             {
                 Console.WriteLine("Employee not found.");
             }
+
             // Run the app
             app.Run();
         }

@@ -53,6 +53,10 @@ namespace employee_management_backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("ProfilePhoto")
                         .IsRequired()
                         .HasColumnType("longtext");

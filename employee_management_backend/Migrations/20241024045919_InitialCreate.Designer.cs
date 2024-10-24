@@ -11,8 +11,8 @@ using employee_management_backend.Data;
 namespace employee_management_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241021060536_CreateProductsTable")]
-    partial class CreateProductsTable
+    [Migration("20241024045919_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,6 +53,10 @@ namespace employee_management_backend.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Position")
                         .IsRequired()
                         .HasColumnType("longtext");
 

@@ -24,7 +24,8 @@ namespace employee_management_backend.Data
                         MemberWorkingOn = "Project A",  // Set current project
                         ProjectDesc = "This project involves developing a web application.",  // Set project description
                         Password = "SecurePassword123",  // Set password
-                        Email = "john.doe@example.com"  // Set email
+                        Email = "john.doe@example.com", // Set email
+                        Position = "asfsd"
                     };
 
                     // Add the product to the context and save changes
@@ -90,5 +91,26 @@ namespace employee_management_backend.Data
                 }
             }
         }
+
+
+        //5.to  add an employee to database
+        public static async Task AddEmployeeAsync(Product employee)
+        {
+            using (var context = new AppDbContext())
+            {
+                // Check if the employee already exists (optional but recommended)
+                if (!EmployeeExists(employee.EmpCode))
+                {
+                    context.Products.Add(employee);  // Add the new employee to the context
+                    await context.SaveChangesAsync();  // Save changes asynchronously
+                    Console.WriteLine($"Employee {employee.EmpName} added successfully!");
+                }
+                else
+                {
+                    Console.WriteLine($"Employee with EmpCode {employee.EmpCode} already exists.");
+                }
+            }
+        }
+
     }
 }
