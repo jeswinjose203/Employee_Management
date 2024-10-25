@@ -39,6 +39,91 @@ public class EmployeeController : ControllerBase
         return Ok(billedMembers); // Return 200 OK with the list of billed members
     }
 
+        // Method to get unbilled members
+    [HttpGet("unbilledmembers")] // This will map to /employee/billedmembers
+    public ActionResult<List<Product>> GetUnBilledMembers()
+    {
+        var UnbilledMembers = DataSeeder.GetUnBilledMembers(); // Use the new method to fetch billed members
+
+        if (UnbilledMembers.Count == 0)
+        {
+            return NotFound("No Unbilled members found."); // Return 404 if no billed members are found
+        }
+
+        return Ok(UnbilledMembers); // Return 200 OK with the list of billed members
+    }
+
+    // Method to get billed members
+    [HttpGet("bench")] // This will map to /employee/billedmembers
+    public ActionResult<List<Product>> GetBenchMembers()
+    {
+        var UnbilledMembers = DataSeeder.GetBenchMembers(); // Use the new method to fetch billed members
+
+        if (UnbilledMembers.Count == 0)
+        {
+            return NotFound("No Unbilled members found."); // Return 404 if no billed members are found
+        }
+
+        return Ok(UnbilledMembers); // Return 200 OK with the list of billed members
+    }
+
+    // Method to get billed members
+    [HttpGet("unbench")] // This will map to /employee/billedmembers
+    public ActionResult<List<Product>> GetUnBenchMembers()
+    {
+        var UnbilledMembers = DataSeeder.GetUnBenchMembers(); // Use the new method to fetch billed members
+
+        if (UnbilledMembers.Count == 0)
+        {
+            return NotFound("No Unbilled members found."); // Return 404 if no billed members are found
+        }
+
+        return Ok(UnbilledMembers); // Return 200 OK with the list of billed members
+    }
+
+    // Method to get billed members
+    [HttpGet("shadow")] // This will map to /employee/billedmembers
+    public ActionResult<List<Product>> GetShadowMembers()
+    {
+        var UnbilledMembers = DataSeeder.GetShadowMembers(); // Use the new method to fetch billed members
+
+        if (UnbilledMembers.Count == 0)
+        {
+            return NotFound("No Unbilled members found."); // Return 404 if no billed members are found
+        }
+
+        return Ok(UnbilledMembers); // Return 200 OK with the list of billed members
+    }
+
+    // Method to get billed members
+    [HttpGet("partiallybillable")] // This will map to /employee/billedmembers
+    public ActionResult<List<Product>> GetPartiallyBillableMembers()
+    {
+        var UnbilledMembers = DataSeeder.GetPartiallyBillableMembers(); // Use the new method to fetch billed members
+
+        if (UnbilledMembers.Count == 0)
+        {
+            return NotFound("No Unbilled members found."); // Return 404 if no billed members are found
+        }
+
+        return Ok(UnbilledMembers); // Return 200 OK with the list of billed members
+    }
+
+
+
+    [HttpGet("projectbuffer")] // This will map to /employee/billedmembers
+    public ActionResult<List<Product>> GetProjectBufferMembers()
+    {
+        var UnbilledMembers = DataSeeder.GetProjectBufferMembers(); // Use the new method to fetch billed members
+
+        if (UnbilledMembers.Count == 0)
+        {
+            return NotFound("No Unbilled members found."); // Return 404 if no billed members are found
+        }
+
+        return Ok(UnbilledMembers); // Return 200 OK with the list of billed members
+    }
+
     // New method to get all employees
     [HttpGet]
     [Route("all")] // This will map to /employee/all

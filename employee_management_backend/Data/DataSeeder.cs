@@ -119,12 +119,92 @@ namespace employee_management_backend.Data
             using (var context = new AppDbContext())
             {
                 var billedMembers = context.Products
-                                           .Where(emp => emp.MemberStatus == "BilledMember") // Filter by MemberStatus
+                                           .Where(emp => emp.MemberStatus == "Billed Member") // Filter by MemberStatus
                                            .ToList(); // Convert to list
 
                 return billedMembers; // Return the list of billed members
             }
         }
 
+        //7. New function to get all Unbilled
+        public static List<Product> GetUnBilledMembers()
+        {
+            using (var context = new AppDbContext())
+            {
+                var billedMembers = context.Products
+                                           .Where(emp => emp.MemberStatus == "Unbilled") // Filter by MemberStatus
+                                           .ToList(); // Convert to list
+
+                return billedMembers; // Return the list of billed members
+            }
+        }
+
+
+        //8. New function to get all Bench
+        public static List<Product> GetBenchMembers()
+        {
+            using (var context = new AppDbContext())
+            {
+                var billedMembers = context.Products
+                                           .Where(emp => emp.MemberStatus == "Bench") // Filter by MemberStatus
+                                           .ToList(); // Convert to list
+
+                return billedMembers; // Return the list of billed members
+            }
+        }
+
+        //8. New function to get all Unbenched
+        public static List<Product> GetUnBenchMembers()
+        {
+            using (var context = new AppDbContext())
+            {
+                var billedMembers = context.Products
+                                           .Where(emp => emp.MemberStatus == "Unbenched") // Filter by MemberStatus
+                                           .ToList(); // Convert to list
+
+                return billedMembers; // Return the list of billed members
+            }
+        }
+
+        //8. New function to get all Shadow 
+        public static List<Product> GetShadowMembers()
+        {
+            using (var context = new AppDbContext())
+            {
+                var billedMembers = context.Products
+                                           .Where(emp => emp.MemberStatus == "Shadow") // Filter by MemberStatus
+                                           .ToList(); // Convert to list
+
+                return billedMembers; // Return the list of billed members
+            }
+        }
+
+
+        //8. New function to get all Partially Billable 
+        public static List<Product> GetPartiallyBillableMembers()
+        {
+            using (var context = new AppDbContext())
+            {
+                var billedMembers = context.Products
+                                           .Where(emp => emp.MemberStatus == "Partially Billable") // Filter by MemberStatus
+                                           .ToList(); // Convert to list
+
+                return billedMembers; // Return the list of billed members
+            }
+        }
+
+
+        //8. New function to get all Project Buffer
+        public static List<Product> GetProjectBufferMembers()
+        {
+            using (var context = new AppDbContext())
+            {
+                var billedMembers = context.Products
+                                           .Where(emp => emp.MemberStatus == "Project Buffer") // Filter by MemberStatus
+                                           .ToList(); // Convert to list
+
+                return billedMembers; // Return the list of billed members
+            }
+        }
     }
 }
