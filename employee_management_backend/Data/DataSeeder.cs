@@ -112,5 +112,19 @@ namespace employee_management_backend.Data
             }
         }
 
+
+        //6. New function to get all billed members
+        public static List<Product> GetBilledMembers()
+        {
+            using (var context = new AppDbContext())
+            {
+                var billedMembers = context.Products
+                                           .Where(emp => emp.MemberStatus == "BilledMember") // Filter by MemberStatus
+                                           .ToList(); // Convert to list
+
+                return billedMembers; // Return the list of billed members
+            }
+        }
+
     }
 }

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import { login } from '../services/authService';
 import styled from 'styled-components';
 import { FaIdBadge, FaLock } from 'react-icons/fa';
 
@@ -8,11 +7,11 @@ const LoginContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 86vh;
-  background: #f0f2f5; /* Professional single color background */
+  background: #f0f2f5;
   padding: 1rem;
 `;
 
-const FormContainer = styled.div`
+const FormContainer = styled.form` /* Change to form for proper submission */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,8 +19,8 @@ const FormContainer = styled.div`
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  max-width: 350px; /* Reduced max width */
-  max-height: 80vh; /* Restrict height to avoid scrolling */
+  max-width: 350px;
+  max-height: 80vh;
   width: 100%;
 `;
 
@@ -62,7 +61,7 @@ const Input = styled.input`
 const Button = styled.button`
   width: 100%;
   padding: 1rem;
-  background: #004085; /* Dark blue for a professional look */
+  background: #004085;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -88,6 +87,7 @@ const LoginText = styled.p`
   color: #666;
   margin-top: 1rem;
 `;
+
 const LoginBody = styled.div`
   margin: 0;
   padding: 0;
@@ -96,57 +96,98 @@ const LoginBody = styled.div`
 `;
 
 export default function Login() {
-    const [loginData, setLoginData] = useState({
-        employeeId: '',
-        password: ''
-    });
+  const [loginData, setLoginData] = useState({
+    employeeId: '',
+    password: '',
+  });
+  const [errorMessage, setErrorMessage] = useState(null);
 
-    const handleChange = (e) => {
-        setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const loginPayload = {
+        EmpCode: parseInt(loginData.employeeId, 10), // Ensure it's an integer
+        Password: loginData.password
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // try {
-        //     const result = await login(loginData);
-        //     localStorage.setItem('token', result.Token); // Store JWT token in local storage
-        //     alert("Login successful!");
-        // } catch (error) {
-        //     alert(error.response?.data || "Login failed.");
-        // }
-    };
+    try {
+        const response = await fetch('http://localhost:5001/employee/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(loginPayload)
+        });
 
-    return (
-      <LoginBody>
-        <LoginContainer>
-            <FormContainer onSubmit={handleSubmit}>
-                <Title>Login</Title>
-                <LoginText>New User? <a href="/signup">Register</a>.</LoginText>
-                <InputWrapper>
-                    <Icon><FaIdBadge /></Icon>
-                    <Input
-                        name="employeeId"
-                        onChange={handleChange}
-                        value={loginData.employeeId}
-                        placeholder="Employee ID"
-                        required
-                    />
-                </InputWrapper>
-                <InputWrapper>
-                    <Icon><FaLock /></Icon>
-                    <Input
-                        type="password"
-                        name="password"
-                        onChange={handleChange}
-                        value={loginData.password}
-                        placeholder="Password"
-                        required
-                    />
-                </InputWrapper>
-                <Button type="submit">Login</Button>
-                <LoginText>Forgot your password? <a href="/reset">Reset it here</a>.</LoginText>
-            </FormContainer>
-        </LoginContainer>
-        </LoginBody>
-    );
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Login successful", data);
+            // Redirect to MainContent
+            window.location.href = "/MainContent"; // Change this if you're using react-router
+        } else {
+            const errorData = await response.json();
+            console.error("Login failed:", errorData.message);
+            // Optionally, redirect to Signup page if not found
+            if (errorData.message.includes("not found")) {
+                window.location.href = "/signup";
+            }
+        }
+    } catch (error) {
+        console.error("Error during login:", error);
+    }
+};
+
+
+
+  return (
+    <LoginBody>
+      <LoginContainer>
+        <FormContainer onSubmit={handleSubmit}>
+          <Title>Login</Title>
+          <LoginText>
+            New User? <a href="/signup">Register</a>.
+          </LoginText>
+
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+
+          <InputWrapper>
+            <Icon>
+              <FaIdBadge />
+            </Icon>
+            <Input
+              name="employeeId"
+              onChange={handleChange}
+              value={loginData.employeeId}
+              placeholder="Employee ID"
+              required
+            />
+          </InputWrapper>
+
+          <InputWrapper>
+            <Icon>
+              <FaLock />
+            </Icon>
+            <Input
+              type="password"
+              name="password"
+              onChange={handleChange}
+              value={loginData.password}
+              placeholder="Password"
+              required
+            />
+          </InputWrapper>
+
+          <Button type="submit">Login</Button>
+
+          <LoginText>
+            Forgot your password? <a href="/reset">Reset it here</a>.
+          </LoginText>
+        </FormContainer>
+      </LoginContainer>
+    </LoginBody>
+  );
 }

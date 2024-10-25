@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Upload, Input, Select, Form, Space, Row, Col, Avatar, Modal } from 'antd';
-import { UploadOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Input, Select, Form, Space, Row, Col, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import skillsData from '../static/skills.json'; // Importing skills from the JSON file
-import logo from '../image/logo.png'; // Import logo
+import ImageUpload from '../ImageUpload';
 
 const { Option } = Select;
 
-const Profile = ({ setProfilePhoto }) => {
-  const [localPhoto, setLocalPhoto] = useState(logo); // Set initial state to logo image
+const Profile = ({ profilePhoto, setProfilePhoto }) => {
+  const [localPhoto, setLocalPhoto] = useState(profilePhoto);
   const navigate = useNavigate();
   const [skills] = useState(skillsData.skills);  // Load skills from JSON file
   const [isResetPasswordVisible, setIsResetPasswordVisible] = useState(false);
@@ -16,18 +15,11 @@ const Profile = ({ setProfilePhoto }) => {
   // Handle form submission
   const handleFormSubmit = (values) => {
     console.log('Form Values:', values);
-    // Add your submission logic here (e.g., API call to save profile data)
   };
 
-  // Handle file upload and preview
-  const handleUpload = ({ file }) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      setLocalPhoto(reader.result);
-      setProfilePhoto(reader.result);   // Set the uploaded image as profile photo
-    };
-    reader.readAsDataURL(file);
-    return false;  // Prevent automatic upload for custom handling
+  const onImageUpload = (imageData) => {
+    setLocalPhoto(imageData);
+    setProfilePhoto(imageData);
   };
 
   // Navigate back to the previous page
@@ -47,6 +39,7 @@ const Profile = ({ setProfilePhoto }) => {
   // Handle password reset submission
   const handlePasswordResetSubmit = (values) => {
     console.log('Password Reset Values:', values);
+    // Add logic to handle password reset (e.g., API call)
     setIsResetPasswordVisible(false);  // Close the modal after submission
   };
 
@@ -60,27 +53,16 @@ const Profile = ({ setProfilePhoto }) => {
       <Row gutter={16} style={{ marginTop: '20px' }}>
         {/* Left Column: Profile Photo */}
         <Col xs={24} sm={6} style={{ textAlign: 'center' }}>
-          <Avatar
-            size={150}
-            icon={localPhoto ? null : <UserOutlined />}  // Default icon if no profile photo
-            src={localPhoto}  // Display uploaded photo if exists
-          />
-          <Form.Item label="Profile Photo" name="profilePhoto" style={{ marginTop: '20px' }}>
-            <Upload beforeUpload={handleUpload} showUploadList={false}>
-              <Button icon={<UploadOutlined />}>Upload Photo</Button>
-            </Upload>
-          </Form.Item>
+          <ImageUpload onImageUpload={onImageUpload} />
         </Col>
 
         {/* Right Column: Form */}
         <Col xs={24} sm={18}>
           <Form layout="vertical" onFinish={handleFormSubmit}>
-            {/* Name Field */}
             <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please enter your name!' }]}>
               <Input placeholder="Enter your name" />
             </Form.Item>
 
-            {/* Location Field */}
             <Form.Item label="Location" name="location">
               <Select placeholder="Enter your location">
                 <Option value="Kochi">Kochi</Option>
@@ -89,7 +71,6 @@ const Profile = ({ setProfilePhoto }) => {
               </Select>
             </Form.Item>
 
-            {/* Skills Selection */}
             <Form.Item label="Skills" name="skills">
               <Select mode="multiple" placeholder="Select your skills" allowClear>
                 {skills.map(skill => (
@@ -100,7 +81,6 @@ const Profile = ({ setProfilePhoto }) => {
               </Select>
             </Form.Item>
 
-            {/* Member Status */}
             <Form.Item label="Member Status" name="memberStatus">
               <Select placeholder="Select status">
                 <Option value="billed_member">Billed Member</Option>
@@ -113,17 +93,14 @@ const Profile = ({ setProfilePhoto }) => {
               </Select>
             </Form.Item>
 
-            {/* Working On Field */}
             <Form.Item label="What are they working on?" name="workingOn">
               <Input.TextArea rows={4} placeholder="Describe what you're currently working on" />
             </Form.Item>
 
-            {/* Project Description Field */}
             <Form.Item label="Project Description" name="projectDescription">
               <Input.TextArea rows={4} placeholder="Describe the project you're working on" />
             </Form.Item>
 
-            {/* Submit and Reset Buttons */}
             <Form.Item>
               <Space>
                 <Button type="primary" htmlType="submit">
