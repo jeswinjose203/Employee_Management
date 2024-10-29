@@ -165,9 +165,15 @@ public class EmployeeController : ControllerBase
                     Location = "Default Location", // If not provided, use defaults
                     ProfilePhoto = "default.jpg",
                     Skills = "Not specified",
-                    MemberStatus = "Active",
+                    ResourceStatus = "Active",
                     MemberWorkingOn = "None",
-                    ProjectDesc = "No project assigned"
+                    ProjectDesc = "No project assigned",
+                    ReportingOfficer = "asd",
+                        TotalExperience = "3",
+                        Allocation = "sdf",
+                        PrimarySkill = "234",
+                        Comments = "afd",
+                        FreeFromDate = "ds"
                 });
 
                 Console.WriteLine($"Signup successful for {employee.EmpName}");

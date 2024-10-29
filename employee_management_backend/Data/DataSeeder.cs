@@ -20,12 +20,18 @@ namespace employee_management_backend.Data
                         Location = "New York",  // Set employee location
                         ProfilePhoto = "path/to/photo.jpg",  // Set path to profile photo
                         Skills = "C#, .NET, SQL",  // Set employee skills
-                        MemberStatus = "Active",  // Set member status
+                        ResourceStatus = "Active",  // Set member status
                         MemberWorkingOn = "Project A",  // Set current project
                         ProjectDesc = "This project involves developing a web application.",  // Set project description
                         Password = "SecurePassword123",  // Set password
                         Email = "john.doe@example.com", // Set email
-                        Position = "asfsd"
+                        Position = "asfsd",
+                        ReportingOfficer = "asd",
+                        TotalExperience = "3",
+                        Allocation = "sdf",
+                        PrimarySkill = "234",
+                        Comments = "afd",
+                        FreeFromDate = "ds"
                     };
 
                     // Add the product to the context and save changes
@@ -119,7 +125,7 @@ namespace employee_management_backend.Data
             using (var context = new AppDbContext())
             {
                 var billedMembers = context.Products
-                                           .Where(emp => emp.MemberStatus == "Billed Member") // Filter by MemberStatus
+                                           .Where(emp => emp.ResourceStatus == "Billed Member") // Filter by MemberStatus
                                            .ToList(); // Convert to list
 
                 return billedMembers; // Return the list of billed members
@@ -132,7 +138,7 @@ namespace employee_management_backend.Data
             using (var context = new AppDbContext())
             {
                 var billedMembers = context.Products
-                                           .Where(emp => emp.MemberStatus == "Unbilled") // Filter by MemberStatus
+                                           .Where(emp => emp.ResourceStatus == "Unbilled") // Filter by MemberStatus
                                            .ToList(); // Convert to list
 
                 return billedMembers; // Return the list of billed members
@@ -146,7 +152,7 @@ namespace employee_management_backend.Data
             using (var context = new AppDbContext())
             {
                 var billedMembers = context.Products
-                                           .Where(emp => emp.MemberStatus == "Bench") // Filter by MemberStatus
+                                           .Where(emp => emp.ResourceStatus == "Bench") // Filter by MemberStatus
                                            .ToList(); // Convert to list
 
                 return billedMembers; // Return the list of billed members
@@ -159,7 +165,7 @@ namespace employee_management_backend.Data
             using (var context = new AppDbContext())
             {
                 var billedMembers = context.Products
-                                           .Where(emp => emp.MemberStatus == "Unbenched") // Filter by MemberStatus
+                                           .Where(emp => emp.ResourceStatus == "Unbenched") // Filter by MemberStatus
                                            .ToList(); // Convert to list
 
                 return billedMembers; // Return the list of billed members
@@ -172,7 +178,7 @@ namespace employee_management_backend.Data
             using (var context = new AppDbContext())
             {
                 var billedMembers = context.Products
-                                           .Where(emp => emp.MemberStatus == "Shadow") // Filter by MemberStatus
+                                           .Where(emp => emp.ResourceStatus == "Shadow") // Filter by MemberStatus
                                            .ToList(); // Convert to list
 
                 return billedMembers; // Return the list of billed members
@@ -186,7 +192,7 @@ namespace employee_management_backend.Data
             using (var context = new AppDbContext())
             {
                 var billedMembers = context.Products
-                                           .Where(emp => emp.MemberStatus == "Partially Billable") // Filter by MemberStatus
+                                           .Where(emp => emp.ResourceStatus == "Partially Billable") // Filter by MemberStatus
                                            .ToList(); // Convert to list
 
                 return billedMembers; // Return the list of billed members
@@ -200,7 +206,7 @@ namespace employee_management_backend.Data
             using (var context = new AppDbContext())
             {
                 var billedMembers = context.Products
-                                           .Where(emp => emp.MemberStatus == "Project Buffer") // Filter by MemberStatus
+                                           .Where(emp => emp.ResourceStatus == "Project Buffer") // Filter by MemberStatus
                                            .ToList(); // Convert to list
 
                 return billedMembers; // Return the list of billed members

@@ -11,8 +11,8 @@ using employee_management_backend.Data;
 namespace employee_management_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241025044508_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241029063036_MigrationName")]
+    partial class MigrationName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,14 @@ namespace employee_management_backend.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("EmpCode"));
 
+                    b.Property<string>("Allocation")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Comments")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -40,11 +48,11 @@ namespace employee_management_backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Location")
+                    b.Property<string>("FreeFromDate")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("MemberStatus")
+                    b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -60,6 +68,10 @@ namespace employee_management_backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("PrimarySkill")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("ProfilePhoto")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -68,7 +80,19 @@ namespace employee_management_backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ReportingOfficer")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ResourceStatus")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Skills")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("TotalExperience")
                         .IsRequired()
                         .HasColumnType("longtext");
 

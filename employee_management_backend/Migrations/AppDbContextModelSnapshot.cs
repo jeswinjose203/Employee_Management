@@ -29,6 +29,14 @@ namespace employee_management_backend.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("EmpCode"));
 
+                    b.Property<string>("Allocation")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Comments")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -37,11 +45,11 @@ namespace employee_management_backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Location")
+                    b.Property<string>("FreeFromDate")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("MemberStatus")
+                    b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -57,6 +65,10 @@ namespace employee_management_backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("PrimarySkill")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("ProfilePhoto")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -65,7 +77,19 @@ namespace employee_management_backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ReportingOfficer")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ResourceStatus")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Skills")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("TotalExperience")
                         .IsRequired()
                         .HasColumnType("longtext");
 

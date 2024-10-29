@@ -144,8 +144,14 @@ const BilledMembers = () => {
           <p><strong>Skills:</strong> {selectedMember.skills || 'N/A'}</p> {/* Use skills */}
           <p><strong>Email:</strong> {selectedMember.email}</p> {/* Display email */}
           <p><strong>Position:</strong> {selectedMember.position}</p> {/* Display position */}
-          <p><strong>Status:</strong> {selectedMember.memberStatus}</p> {/* Display member status */}
+          <p><strong>Status:</strong> {selectedMember.ResourceStatus}</p> {/* Display member status */}
           <p><strong>Project Description:</strong> {selectedMember.projectDesc}</p> {/* Display project description */}
+          <p><strong>Reporting Officer</strong> {selectedMember.ReportingOfficer}</p> 
+          <p><strong>Total Experience</strong> {selectedMember.TotalExperience}</p> 
+          <p><strong>Allocation</strong> {selectedMember.Allocation || 'N/A'}</p>
+          <p><strong>Primary Skill</strong> {selectedMember.PrimarySkill}</p> 
+          <p><strong>Comments</strong> {selectedMember.Comments}</p>
+          <p><strong>FreeFromDate</strong> {selectedMember.FreeFromDate}</p> 
         </Modal>
       )}
     </Container>

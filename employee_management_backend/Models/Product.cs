@@ -7,12 +7,19 @@ namespace employee_management_backend.Models
         public required string Location { get; set; }
         public required string ProfilePhoto { get; set; }
         public required string Skills { get; set; }
-        public required string MemberStatus { get; set; }
+        public required string ResourceStatus { get; set; }
         public required string MemberWorkingOn { get; set; }
         public required string ProjectDesc { get; set; }
         public required string Password { get; set; }
         public required string Email { get; set; }
         public required string Position { get; set; }
+
+        public required string ReportingOfficer { get; set; }
+        public required string TotalExperience { get; set; }
+        public required string Allocation { get; set; }
+        public required string PrimarySkill { get; set; }
+        public required string Comments { get; set; }
+        public required string FreeFromDate { get; set; }
     }
 
     public class Signup
