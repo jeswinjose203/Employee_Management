@@ -15,6 +15,13 @@ const Profile = ({ profilePhoto, setProfilePhoto }) => {
   // Handle form submission
   const handleFormSubmit = (values) => {
     console.log('Form Values:', values);
+    console.log('Position:', values.Position);
+    console.log('Reporting Officer:', values['Reporting Officer']);
+    console.log('TotalExperience:', values.TotalExperience);
+    console.log('Allocation:', values.Allocation);
+    console.log('PrimarySkill:', values.PrimarySkill);
+    console.log('Comments:', values.Comments);
+    console.log('FreeFromDate:', values.FreeFromDate);
   };
 
   const onImageUpload = (imageData) => {
@@ -81,7 +88,7 @@ const Profile = ({ profilePhoto, setProfilePhoto }) => {
               </Select>
             </Form.Item>
 
-            <Form.Item label="Member Status" name="memberStatus">
+            <Form.Item label="Resource Status" name="memberStatus">
               <Select placeholder="Select status">
                 <Option value="billed_member">Billed Member</Option>
                 <Option value="unbilled">Unbilled</Option>
@@ -99,6 +106,34 @@ const Profile = ({ profilePhoto, setProfilePhoto }) => {
 
             <Form.Item label="Project Description" name="projectDescription">
               <Input.TextArea rows={4} placeholder="Describe the project you're working on" />
+            </Form.Item>
+
+            <Form.Item label="Position" name="Position">
+              <Input.TextArea rows={1} placeholder="Position" />
+            </Form.Item>
+            
+            <Form.Item label="Reporting Officer" name="Reporting Officer">
+              <Input.TextArea rows={1} placeholder="Reporting Officer" />
+            </Form.Item>
+
+            <Form.Item label="TotalExperience" name="TotalExperience">
+              <Input.TextArea rows={1} placeholder="TotalExperience" />
+            </Form.Item>
+
+            <Form.Item label="Allocation" name="Allocation">
+              <Input.TextArea rows={1} placeholder="Allocation" />
+            </Form.Item>
+
+            <Form.Item label="PrimarySkill" name="PrimarySkill">
+              <Input.TextArea rows={1} placeholder="PrimarySkill" />
+            </Form.Item>
+
+            <Form.Item label="Comments" name="Comments">
+              <Input.TextArea rows={4} placeholder="Comments" />
+            </Form.Item>
+
+            <Form.Item label="FreeFromDate" name="FreeFromDate">
+              <Input.TextArea rows={1} placeholder="FreeFromDate" />
             </Form.Item>
 
             <Form.Item>
