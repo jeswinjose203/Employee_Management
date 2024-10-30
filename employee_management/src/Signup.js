@@ -126,7 +126,8 @@ export default function Signup() {
           } else {
               alert("Signup successful!");
               // Redirect to another page on success
-              window.location.href = "/maincontent";
+              window.location.href = "/login";
+
           }
       } catch (error) {
           console.error("Error during signup:", error);
