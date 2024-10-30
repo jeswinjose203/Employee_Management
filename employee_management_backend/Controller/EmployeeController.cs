@@ -221,4 +221,51 @@ public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
 
 
 
+ [HttpPost("Profiledata")]
+public async Task<IActionResult> Profiledata([FromBody] ProfileDataRequest profileDataRequest)
+{
+    if (ModelState.IsValid)
+    {
+        try
+        {
+            // Check if an employee with the provided EmpCode already exists
+            var existingEmployee = DataSeeder.GetEmployeeByEmpCode(profileDataRequest.empCode);
+            
+            if (existingEmployee == null)
+            {
+                // If employee with EmpCode does not exist, return a Not Found response
+                return NotFound(new { message = "Employee not found." });
+            }
+
+            // Update the existing employee's information
+            existingEmployee.EmpName = profileDataRequest.name;
+            existingEmployee.ResourceStatus = profileDataRequest.memberStatus;
+            existingEmployee.Position = profileDataRequest.position;
+            existingEmployee.Location = profileDataRequest.location;
+            existingEmployee.Skills = string.Join(", ", profileDataRequest.skills); // Converting list to string
+            existingEmployee.ReportingOfficer = profileDataRequest.reportingOfficer;
+            existingEmployee.TotalExperience = profileDataRequest.totalExperience;
+            existingEmployee.Allocation = profileDataRequest.allocation;
+            existingEmployee.PrimarySkill = profileDataRequest.primarySkill;
+            existingEmployee.Comments = profileDataRequest.comments;
+            existingEmployee.FreeFromDate = profileDataRequest.freeFromDate;
+
+            // Save changes (assuming DataSeeder has an UpdateEmployeeAsync method)
+            await DataSeeder.UpdateEmployeeAsync(existingEmployee);
+
+            Console.WriteLine($"Profile data updated for {profileDataRequest.name}");
+            return Ok(new { message = "Profile data updated successfully!" });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating profile data: {ex.Message}");
+            return StatusCode(500, new { message = "Failed to update profile data.", error = ex.Message });
+        }
+    }
+
+    return BadRequest(new { message = "Invalid profile data provided." });
+}
+
+
+
 }

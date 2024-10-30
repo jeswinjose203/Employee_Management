@@ -1,72 +1,70 @@
 import React, { useState } from 'react';
 import { Button, Input, Select, Form, Space, Row, Col, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import skillsData from '../static/skills.json'; // Importing skills from the JSON file
-import ImageUpload from '../ImageUpload';
-
+import skillsData from '../static/skills.json';
+import { message } from 'antd'; // Import message from antd
 const { Option } = Select;
 
-const Profile = ({ profilePhoto, setProfilePhoto }) => {
-  const [localPhoto, setLocalPhoto] = useState(profilePhoto);
+const Profile = () => {
   const navigate = useNavigate();
-  const [skills] = useState(skillsData.skills);  // Load skills from JSON file
+  const [skills] = useState(skillsData.skills);
   const [isResetPasswordVisible, setIsResetPasswordVisible] = useState(false);
 
   // Handle form submission
-  const handleFormSubmit = (values) => {
-    console.log('Form Values:', values);
-    console.log('Position:', values.Position);
-    console.log('Reporting Officer:', values['Reporting Officer']);
-    console.log('TotalExperience:', values.TotalExperience);
-    console.log('Allocation:', values.Allocation);
-    console.log('PrimarySkill:', values.PrimarySkill);
-    console.log('Comments:', values.Comments);
-    console.log('FreeFromDate:', values.FreeFromDate);
-  };
 
-  const onImageUpload = (imageData) => {
-    setLocalPhoto(imageData);
-    setProfilePhoto(imageData);
-  };
 
-  // Navigate back to the previous page
+  const handleFormSubmit = async (values) => {
+    try {
+      const response = await fetch('http://localhost:5001/employee/Profiledata', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+  
+      if (response.ok) {
+        console.log('Data sent successfully');
+        // Handle successful submission, e.g., navigate to another page
+        message.success('Profile data updated successfully!');
+      } else {
+        // Handle unsuccessful submission
+        const errorResponse = await response.json(); // Parse the error response
+        message.error(`Failed to send data: ${errorResponse.message || 'Please input a proper EmpCode and data.'}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      message.error('An unexpected error occurred. Please try again.');
+    }
+  };
+  
+
   const handleGoBack = () => {
     navigate(-1);
   };
 
-  // Show or hide the password reset modal
-  const showResetPasswordModal = () => {
-    setIsResetPasswordVisible(true);
-  };
-
-  const handleCancelPasswordReset = () => {
-    setIsResetPasswordVisible(false);
-  };
-
-  // Handle password reset submission
-  const handlePasswordResetSubmit = (values) => {
-    console.log('Password Reset Values:', values);
-    // Add logic to handle password reset (e.g., API call)
-    setIsResetPasswordVisible(false);  // Close the modal after submission
-  };
-
   return (
     <div style={{ padding: '20px' }}>
-      {/* Go Back Button */}
       <Button type="primary" onClick={handleGoBack}>
         Go Back
       </Button>
 
       <Row gutter={16} style={{ marginTop: '20px' }}>
-        {/* Left Column: Profile Photo */}
-        <Col xs={24} sm={6} style={{ textAlign: 'center' }}>
-          <ImageUpload onImageUpload={onImageUpload} />
-        </Col>
-
-        {/* Right Column: Form */}
         <Col xs={24} sm={18}>
           <Form layout="vertical" onFinish={handleFormSubmit}>
-            <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please enter your name!' }]}>
+            <Form.Item
+              label="EmpCode"
+              name="empCode"
+              rules={[{ required: true, message: 'Please enter your EmpCode!' }]}
+            >
+              <Input placeholder="Enter EmpCode" />
+            </Form.Item>
+
+            <Form.Item
+              label="Name"
+              name="name"
+              rules={[{ required: true, message: 'Please enter your name!' }]}
+            >
               <Input placeholder="Enter your name" />
             </Form.Item>
 
@@ -80,7 +78,7 @@ const Profile = ({ profilePhoto, setProfilePhoto }) => {
 
             <Form.Item label="Skills" name="skills">
               <Select mode="multiple" placeholder="Select your skills" allowClear>
-                {skills.map(skill => (
+                {skills.map((skill) => (
                   <Option key={skill} value={skill}>
                     {skill}
                   </Option>
@@ -99,41 +97,41 @@ const Profile = ({ profilePhoto, setProfilePhoto }) => {
                 <Option value="project_buffer">Project Buffer</Option>
               </Select>
             </Form.Item>
-
+{/* 
             <Form.Item label="What are they working on?" name="workingOn">
               <Input.TextArea rows={4} placeholder="Describe what you're currently working on" />
             </Form.Item>
 
             <Form.Item label="Project Description" name="projectDescription">
               <Input.TextArea rows={4} placeholder="Describe the project you're working on" />
+            </Form.Item> */}
+
+            <Form.Item label="Position" name="position">
+              <Input placeholder="Position" />
             </Form.Item>
 
-            <Form.Item label="Position" name="Position">
-              <Input.TextArea rows={1} placeholder="Position" />
-            </Form.Item>
-            
-            <Form.Item label="Reporting Officer" name="Reporting Officer">
-              <Input.TextArea rows={1} placeholder="Reporting Officer" />
+            <Form.Item label="Reporting Officer" name="reportingOfficer">
+              <Input placeholder="Reporting Officer" />
             </Form.Item>
 
-            <Form.Item label="TotalExperience" name="TotalExperience">
-              <Input.TextArea rows={1} placeholder="TotalExperience" />
+            <Form.Item label="Total Experience" name="totalExperience">
+              <Input placeholder="Total Experience" />
             </Form.Item>
 
-            <Form.Item label="Allocation" name="Allocation">
-              <Input.TextArea rows={1} placeholder="Allocation" />
+            <Form.Item label="Allocation" name="allocation">
+              <Input placeholder="Allocation" />
             </Form.Item>
 
-            <Form.Item label="PrimarySkill" name="PrimarySkill">
-              <Input.TextArea rows={1} placeholder="PrimarySkill" />
+            <Form.Item label="Primary Skill" name="primarySkill">
+              <Input placeholder="Primary Skill" />
             </Form.Item>
 
-            <Form.Item label="Comments" name="Comments">
+            <Form.Item label="Comments" name="comments">
               <Input.TextArea rows={4} placeholder="Comments" />
             </Form.Item>
 
-            <Form.Item label="FreeFromDate" name="FreeFromDate">
-              <Input.TextArea rows={1} placeholder="FreeFromDate" />
+            <Form.Item label="Free From Date" name="freeFromDate">
+              <Input placeholder="Free From Date" />
             </Form.Item>
 
             <Form.Item>
@@ -144,7 +142,7 @@ const Profile = ({ profilePhoto, setProfilePhoto }) => {
                 <Button htmlType="reset">
                   Reset
                 </Button>
-                <Button type="dashed" onClick={showResetPasswordModal}>
+                <Button type="dashed" onClick={() => setIsResetPasswordVisible(true)}>
                   Reset Password
                 </Button>
               </Space>
@@ -152,54 +150,6 @@ const Profile = ({ profilePhoto, setProfilePhoto }) => {
           </Form>
         </Col>
       </Row>
-
-      {/* Reset Password Modal */}
-      <Modal
-        title="Reset Password"
-        visible={isResetPasswordVisible}
-        onCancel={handleCancelPasswordReset}
-        footer={null}
-      >
-        <Form layout="vertical" onFinish={handlePasswordResetSubmit}>
-          <Form.Item
-            label="New Password"
-            name="newPassword"
-            rules={[{ required: true, message: 'Please enter your new password!' }]}
-          >
-            <Input.Password placeholder="Enter new password" />
-          </Form.Item>
-
-          <Form.Item
-            label="Confirm Password"
-            name="confirmPassword"
-            dependencies={['newPassword']}
-            rules={[
-              { required: true, message: 'Please confirm your new password!' },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue('newPassword') === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error('The two passwords do not match!'));
-                },
-              }),
-            ]}
-          >
-            <Input.Password placeholder="Confirm new password" />
-          </Form.Item>
-
-          <Form.Item>
-            <Space>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-              <Button onClick={handleCancelPasswordReset}>
-                Cancel
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </Modal>
     </div>
   );
 };

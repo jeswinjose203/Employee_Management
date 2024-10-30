@@ -140,18 +140,18 @@ const BilledMembers = () => {
           footer={null}
         >
           <p><strong>Name:</strong> {selectedMember.empName}</p> {/* Use empName */}
+          <p><strong>Name:</strong> {selectedMember.empName}</p> {/* Use empName */}
           <p><strong>Location:</strong> {selectedMember.location}</p> {/* Use location */}
           <p><strong>Skills:</strong> {selectedMember.skills || 'N/A'}</p> {/* Use skills */}
           <p><strong>Email:</strong> {selectedMember.email}</p> {/* Display email */}
           <p><strong>Position:</strong> {selectedMember.position}</p> {/* Display position */}
-          <p><strong>Status:</strong> {selectedMember.ResourceStatus}</p> {/* Display member status */}
-          <p><strong>Project Description:</strong> {selectedMember.projectDesc}</p> {/* Display project description */}
-          <p><strong>Reporting Officer</strong> {selectedMember.ReportingOfficer}</p> 
-          <p><strong>Total Experience</strong> {selectedMember.TotalExperience}</p> 
-          <p><strong>Allocation</strong> {selectedMember.Allocation || 'N/A'}</p>
-          <p><strong>Primary Skill</strong> {selectedMember.PrimarySkill}</p> 
-          <p><strong>Comments</strong> {selectedMember.Comments}</p>
-          <p><strong>FreeFromDate</strong> {selectedMember.FreeFromDate}</p> 
+          <p><strong>Status:</strong> {selectedMember.resourceStatus}</p> {/* Display member status */}
+          <p><strong>Reporting Officer</strong> {selectedMember.reportingOfficer}</p> 
+          <p><strong>Total Experience</strong> {selectedMember.totalExperience}</p> 
+          <p><strong>Allocation</strong> {selectedMember.allocation}</p>
+          <p><strong>Primary Skill</strong> {selectedMember.primarySkill}</p> 
+          <p><strong>Comments</strong> {selectedMember.comments}</p>
+          <p><strong>FreeFromDate</strong> {selectedMember.freeFromDate}</p> 
         </Modal>
       )}
     </Container>

@@ -212,5 +212,44 @@ namespace employee_management_backend.Data
                 return billedMembers; // Return the list of billed members
             }
         }
+
+
+
+        public static async Task<bool> UpdateEmployeeAsync(Product updatedEmployee)
+{
+    using (var context = new AppDbContext())
+    {
+        // Find the existing employee by EmpCode
+        var existingEmployee = context.Products.FirstOrDefault(emp => emp.EmpCode == updatedEmployee.EmpCode);
+
+        if (existingEmployee == null)
+        {
+            Console.WriteLine($"Employee with EmpCode {updatedEmployee.EmpCode} not found.");
+            return false;  // Return false if the employee was not found
+        }
+
+        // Update fields with the values from updatedEmployee
+        existingEmployee.EmpName = updatedEmployee.EmpName;
+        existingEmployee.Email = updatedEmployee.Email;
+        existingEmployee.Position = updatedEmployee.Position;
+        existingEmployee.Location = updatedEmployee.Location;
+        existingEmployee.Skills = updatedEmployee.Skills;
+        existingEmployee.ResourceStatus = updatedEmployee.ResourceStatus;
+        existingEmployee.MemberWorkingOn = updatedEmployee.MemberWorkingOn;
+        existingEmployee.ProjectDesc = updatedEmployee.ProjectDesc;
+        existingEmployee.ReportingOfficer = updatedEmployee.ReportingOfficer;
+        existingEmployee.TotalExperience = updatedEmployee.TotalExperience;
+        existingEmployee.Allocation = updatedEmployee.Allocation;
+        existingEmployee.PrimarySkill = updatedEmployee.PrimarySkill;
+        existingEmployee.Comments = updatedEmployee.Comments;
+        existingEmployee.FreeFromDate = updatedEmployee.FreeFromDate;
+
+        // Save changes to the database
+        await context.SaveChangesAsync();
+        Console.WriteLine($"Employee with EmpCode {updatedEmployee.EmpCode} updated successfully.");
+        return true;  // Return true to indicate successful update
+    }
+}
+
     }
 }
