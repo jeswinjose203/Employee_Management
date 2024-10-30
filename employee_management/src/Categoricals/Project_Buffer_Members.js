@@ -43,7 +43,7 @@ const BilledMembers = () => {
   }, []);
 
   // Locations to filter
-  const locations = ["Cochin", "TVM", "Chennai"];
+  const locations = ["Kochi", "TVM", "Chennai"];
 
   // Filter members based on the search term, selected skills, and selected location
   const filteredMembers = employees.filter((member) => {

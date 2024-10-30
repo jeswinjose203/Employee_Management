@@ -88,13 +88,13 @@ const Profile = () => {
 
             <Form.Item label="Resource Status" name="memberStatus">
               <Select placeholder="Select status">
-                <Option value="billed_member">Billed Member</Option>
-                <Option value="unbilled">Unbilled</Option>
-                <Option value="bench">Bench</Option>
-                <Option value="unbenched">Unbenched</Option>
-                <Option value="shadow">Shadow</Option>
-                <Option value="partially_billable">Partially Billable</Option>
-                <Option value="project_buffer">Project Buffer</Option>
+                <Option value="Billed Member">Billed Member</Option>
+                <Option value="Unbilled">Unbilled</Option>
+                <Option value="Bench">Bench</Option>
+                <Option value="UnBenched">Unbenched</Option>
+                <Option value="Shadow">Shadow</Option>
+                <Option value="Partially Billable">Partially Billable</Option>
+                <Option value="Project Buffer">Project Buffer</Option>
               </Select>
             </Form.Item>
 {/* 
