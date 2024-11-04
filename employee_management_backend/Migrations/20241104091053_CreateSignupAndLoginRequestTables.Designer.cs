@@ -11,8 +11,8 @@ using employee_management_backend.Data;
 namespace employee_management_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241029063036_MigrationName")]
-    partial class MigrationName
+    [Migration("20241104091053_CreateSignupAndLoginRequestTables")]
+    partial class CreateSignupAndLoginRequestTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,6 +99,35 @@ namespace employee_management_backend.Migrations
                     b.HasKey("EmpCode");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("employee_management_backend.Models.Signup", b =>
+                {
+                    b.Property<int>("EmpCode")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("EmpCode"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("EmpName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("EmpCode");
+
+                    b.ToTable("Signups");
                 });
 #pragma warning restore 612, 618
         }

@@ -97,6 +97,35 @@ namespace employee_management_backend.Migrations
 
                     b.ToTable("Products");
                 });
+
+            modelBuilder.Entity("employee_management_backend.Models.Signup", b =>
+                {
+                    b.Property<int>("EmpCode")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("EmpCode"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("EmpName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("EmpCode");
+
+                    b.ToTable("Signups");
+                });
 #pragma warning restore 612, 618
         }
     }

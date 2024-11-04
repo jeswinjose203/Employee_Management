@@ -7,6 +7,8 @@ namespace employee_management_backend.Data
     {
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<Signup> Signups { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(@"Server=localhost;Database=new_schema;User=root;Password=Jenbros@23;",

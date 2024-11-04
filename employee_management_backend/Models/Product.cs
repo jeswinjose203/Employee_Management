@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 namespace employee_management_backend.Models
 {
     public class Product
@@ -23,13 +24,15 @@ namespace employee_management_backend.Models
     }
 
     public class Signup
-    {
-        public required int EmpCode { get; set; }  // Primary key
-        public required string EmpName { get; set; }
-        public required string Password { get; set; }
-        public required string Email { get; set; }
-        public required string Position { get; set; }
-    }
+{
+    [Key] // Mark EmpCode as the primary key
+    public required int EmpCode { get; set; }
+
+    public required string EmpName { get; set; }
+    public required string Password { get; set; }
+    public required string Email { get; set; }
+    public required string Position { get; set; }
+}
 public class ProfileDataRequest
 {
     public int empCode { get; set; }
@@ -51,5 +54,4 @@ public class ProfileDataRequest
         public required int EmpCode { get; set; }  // Primary key
         public required string Password { get; set; }
     }
-
 }

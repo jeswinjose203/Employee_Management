@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using employee_management_backend.Data;
 using employee_management_backend.Models;
-
 [ApiController]
 [Route("[controller]")]
 public class EmployeeController : ControllerBase
@@ -140,54 +139,94 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPost("signup")]
-    public async Task<IActionResult> Signup([FromBody] Signup employee)
+public async Task<IActionResult> Signup([FromBody] Signup employee)
+{
+    if (ModelState.IsValid)
     {
-        if (ModelState.IsValid)
+        try
         {
-            try
+            // Check if the employee already exists by EmpCode
+            if (await Seeder.EmployeeExists(employee.EmpCode))
             {
-                // Check if the employee already exists by EmpCode
-                if (DataSeeder.EmployeeExists(employee.EmpCode))
-                {
-                    Console.WriteLine($"Employee with EmpCode {employee.EmpCode} already exists.");
-                    // Return success but notify that the employee already exists
-                    return Ok(new { message = "Employee with this EmpCode already exists." });
-                }
-
-                // Add employee to the database if not exists
-                await DataSeeder.AddEmployeeAsync(new Product
-                {
-                    EmpCode = employee.EmpCode,
-                    EmpName = employee.EmpName,
-                    Email = employee.Email,
-                    Password = employee.Password,
-                    Position = employee.Position,
-                    Location = "Default Location", // If not provided, use defaults
-                    ProfilePhoto = "default.jpg",
-                    Skills = "Not specified",
-                    ResourceStatus = "Active",
-                    MemberWorkingOn = "None",
-                    ProjectDesc = "No project assigned",
-                    ReportingOfficer = "asd",
-                        TotalExperience = "3",
-                        Allocation = "sdf",
-                        PrimarySkill = "234",
-                        Comments = "afd",
-                        FreeFromDate = "ds"
-                });
-
-                Console.WriteLine($"Signup successful for {employee.EmpName}");
-                return Ok(new { message = "Signup successful!" });
+                Console.WriteLine($"Employee with EmpCode {employee.EmpCode} already exists.");
+                // Return success but notify that the employee already exists
+                return Ok(new { message = "Employee with this EmpCode already exists." });
             }
-            catch (Exception ex)
+
+            // Add employee to the database if not exists
+            await Seeder.AddEmployeeAsync(new Signup
             {
-                Console.WriteLine($"Error during signup: {ex.Message}");
-                return StatusCode(500, new { message = "Signup failed.", error = ex.Message });
-            }
+                EmpCode = employee.EmpCode,
+                EmpName = employee.EmpName,
+                Email = employee.Email,
+                Password = employee.Password,
+                Position = employee.Position,
+                // Add other required fields as per your Signup model
+            });
+
+            Console.WriteLine($"Signup successful for {employee.EmpName}");
+            return Ok(new { message = "Signup successful!" });
         }
-
-        return BadRequest(new { message = "Invalid employee data provided." });
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during signup: {ex.Message}");
+            return StatusCode(500, new { message = "Signup failed.", error = ex.Message });
+        }
     }
+
+    return BadRequest(new { message = "Invalid employee data provided." });
+}
+
+    
+    // [HttpPost("signup")]
+    // public async Task<IActionResult> Signup([FromBody] Signup employee)
+    // {
+    //     if (ModelState.IsValid)
+    //     {
+    //         try
+    //         {
+    //             // Check if the employee already exists by EmpCode
+    //             if (DataSeeder.EmployeeExists(employee.EmpCode))
+    //             {
+    //                 Console.WriteLine($"Employee with EmpCode {employee.EmpCode} already exists.");
+    //                 // Return success but notify that the employee already exists
+    //                 return Ok(new { message = "Employee with this EmpCode already exists." });
+    //             }
+
+    //             // Add employee to the database if not exists
+    //             await DataSeeder.AddEmployeeAsync(new Product
+    //             {
+    //                 EmpCode = employee.EmpCode,
+    //                 EmpName = employee.EmpName,
+    //                 Email = employee.Email,
+    //                 Password = employee.Password,
+    //                 Position = employee.Position,
+    //                 Location = "Default Location", // If not provided, use defaults
+    //                 ProfilePhoto = "default.jpg",
+    //                 Skills = "Not specified",
+    //                 ResourceStatus = "Active",
+    //                 MemberWorkingOn = "None",
+    //                 ProjectDesc = "No project assigned",
+    //                 ReportingOfficer = "asd",
+    //                     TotalExperience = "3",
+    //                     Allocation = "sdf",
+    //                     PrimarySkill = "234",
+    //                     Comments = "afd",
+    //                     FreeFromDate = "ds"
+    //             });
+
+    //             Console.WriteLine($"Signup successful for {employee.EmpName}");
+    //             return Ok(new { message = "Signup successful!" });
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             Console.WriteLine($"Error during signup: {ex.Message}");
+    //             return StatusCode(500, new { message = "Signup failed.", error = ex.Message });
+    //         }
+    //     }
+
+    //     return BadRequest(new { message = "Invalid employee data provided." });
+    // }
 [HttpGet("checkEmpCode/{empCode}")]
 public IActionResult CheckEmpCode(int empCode)
 {
@@ -237,7 +276,7 @@ public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
     }
 
     // Check if the employee exists in the database
-    var employee = DataSeeder.GetEmployeeByEmpCode(loginRequest.EmpCode);
+    var employee = Seeder.GetEmployeeByEmpCode(loginRequest.EmpCode);
     if (employee == null)
     {
         return Unauthorized(new { message = "Employee not found. Please sign up." });
