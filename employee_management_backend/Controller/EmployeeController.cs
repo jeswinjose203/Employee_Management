@@ -188,13 +188,43 @@ public class EmployeeController : ControllerBase
 
         return BadRequest(new { message = "Invalid employee data provided." });
     }
-
 [HttpGet("checkEmpCode/{empCode}")]
 public IActionResult CheckEmpCode(int empCode)
 {
-    bool exists = DataSeeder.EmployeeExists(empCode);
-    return Ok(new { exists });
+    // Retrieve the employee by EmpCode
+    var employee = DataSeeder.GetEmployeeByEmpCode(empCode);
+    
+    // If employee exists, return employee data
+    if (employee != null)
+    {
+        return Ok(new
+        {
+            exists = true,
+            employeeData = new
+            {
+                employee.EmpCode,
+                employee.EmpName,
+                // employee.Email,
+                employee.Position,
+                employee.Location,
+                employee.Skills,
+                employee.ResourceStatus,
+                employee.MemberWorkingOn,
+                employee.ProjectDesc,
+                employee.ReportingOfficer,
+                employee.TotalExperience,
+                employee.Allocation,
+                employee.PrimarySkill,
+                employee.Comments,
+                employee.FreeFromDate
+            }
+        });
+    }
+
+    // If employee does not exist, return exists as false
+    return Ok(new { exists = false });
 }
+
 
 
     [HttpPost("login")]

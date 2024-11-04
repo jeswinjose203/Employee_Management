@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Input, Select, Form, Space, Row, Col, Modal, message } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Button, Input, Select, Form, Space, Row, Col, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import skillsData from '../static/skills.json';
 
@@ -8,8 +8,8 @@ const { Option } = Select;
 const Profile = () => {
   const navigate = useNavigate();
   const [skills] = useState(skillsData.skills);
-  const [isResetPasswordVisible, setIsResetPasswordVisible] = useState(false);
   const [isEmpCodeValid, setIsEmpCodeValid] = useState(false);
+  const [employeeData, setEmployeeData] = useState(null); // State to store employee data
   const [form] = Form.useForm();
 
   const handleCheckEmpCode = async () => {
@@ -20,12 +20,17 @@ const Profile = () => {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log("API Response:", data); // For debugging
+
         if (data.exists) {
           message.success('EmpCode exists. You can now edit the profile.');
           setIsEmpCodeValid(true);
+          setEmployeeData(data.employeeData); // Set employee data from API response
         } else {
           message.error('EmpCode does not exist. Please enter a valid EmpCode.');
           setIsEmpCodeValid(false);
+          setEmployeeData(null); // Clear employee data if EmpCode is invalid
+          form.resetFields(); // Clear form if EmpCode is invalid
         }
       } else {
         message.error('Failed to verify EmpCode. Please try again.');
@@ -35,6 +40,29 @@ const Profile = () => {
       message.error('An unexpected error occurred. Please try again.');
     }
   };
+
+  useEffect(() => {
+    if (isEmpCodeValid && employeeData) {
+      console.log("Setting form values with:", employeeData); // Debugging
+      form.setFieldsValue({
+        empCode: employeeData.empCode,
+        name: employeeData.empName,
+        memberStatus: employeeData.resourceStatus, // Ensure this is correct
+        position: employeeData.position,
+        location: employeeData.location,
+        skills: employeeData.skills ? (Array.isArray(employeeData.skills) ? employeeData.skills : [employeeData.skills]) : [],
+        memberWorkingOn: employeeData.memberWorkingOn,
+        projectDesc: employeeData.projectDesc,
+        reportingOfficer: employeeData.reportingOfficer,
+        totalExperience: employeeData.totalExperience,
+        allocation: employeeData.allocation,
+        primarySkill: employeeData.primarySkill,
+        comments: employeeData.comments,
+        freeFromDate: employeeData.freeFromDate,
+      });
+    }
+  }, [isEmpCodeValid, employeeData, form]);
+  
 
   const handleFormSubmit = async (values) => {
     if (!isEmpCodeValid) {
@@ -86,6 +114,25 @@ const Profile = () => {
               <Input placeholder="Enter your name" disabled={!isEmpCodeValid} />
             </Form.Item>
 
+            {/* <Form.Item label="Email" name="email">
+              <Input placeholder="Enter your email" disabled={!isEmpCodeValid} />
+            </Form.Item> */}
+
+
+
+            <Form.Item label="Resource Status" name="memberStatus">
+  <Select placeholder="Select status" disabled={!isEmpCodeValid}>
+    <Option value="Billed Member">Billed Member</Option>
+    <Option value="Unbilled">Unbilled</Option>
+    <Option value="Bench">Bench</Option>
+    <Option value="Unbenched">Unbenched</Option>
+    <Option value="Shadow">Shadow</Option>
+    <Option value="Partially Billable">Partially Billable</Option>
+    <Option value="Project Buffer">Project Buffer</Option>
+  </Select>
+</Form.Item>
+
+
             <Form.Item label="Location" name="location">
               <Select placeholder="Enter your location" disabled={!isEmpCodeValid}>
                 <Option value="Kochi">Kochi</Option>
@@ -110,7 +157,6 @@ const Profile = () => {
               <Input placeholder="Reporting Officer" disabled={!isEmpCodeValid} />
             </Form.Item>
 
-            {/* Add back other form fields that were missing */}
             <Form.Item label="Total Experience" name="totalExperience">
               <Input placeholder="Total Experience" disabled={!isEmpCodeValid} />
             </Form.Item>
@@ -135,7 +181,6 @@ const Profile = () => {
               <Space>
                 <Button type="primary" htmlType="submit" disabled={!isEmpCodeValid}>Save Profile</Button>
                 <Button htmlType="reset">Reset</Button>
-                <Button type="dashed" onClick={() => setIsResetPasswordVisible(true)} disabled={!isEmpCodeValid}>Reset Password</Button>
               </Space>
             </Form.Item>
           </Form>
