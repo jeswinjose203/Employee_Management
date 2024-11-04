@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using employee_management_backend.Data;
 using employee_management_backend.Models;
+using employee_management_backend.Helpers;
 [ApiController]
 [Route("[controller]")]
 public class EmployeeController : ControllerBase
@@ -140,13 +141,10 @@ public class EmployeeController : ControllerBase
 [HttpPost("signup")]
 public async Task<IActionResult> Signup([FromBody] Signup employee)
 {
-    // List of allowed positions
     var allowedPositions = new List<string> { "Project Manager", "General Manager", "Other Managers" };
 
-    // Validate model state and position
     if (ModelState.IsValid)
     {
-        // Check if the position is valid
         if (!allowedPositions.Contains(employee.Position))
         {
             return BadRequest(new { message = "Invalid position. Only Project Manager, General Manager, and Other Managers are allowed." });
@@ -154,22 +152,23 @@ public async Task<IActionResult> Signup([FromBody] Signup employee)
 
         try
         {
-            // Check if the employee already exists by EmpCode
             if (await Seeder.EmployeeExists(employee.EmpCode))
             {
                 Console.WriteLine($"Employee with EmpCode {employee.EmpCode} already exists.");
                 return Ok(new { message = "Employee with this EmpCode already exists." });
             }
 
-            // Add employee to the database if not exists
+            // Hash the password before storing it
+            string hashedPassword = PasswordHelper.HashPassword(employee.Password);
+
+            // Add employee to the database with the hashed password
             await Seeder.AddEmployeeAsync(new Signup
             {
                 EmpCode = employee.EmpCode,
                 EmpName = employee.EmpName,
                 Email = employee.Email,
-                Password = employee.Password,
+                Password = hashedPassword, // Store hashed password
                 Position = employee.Position,
-                // Add other required fields as per your Signup model
             });
 
             Console.WriteLine($"Signup successful for {employee.EmpName}");
@@ -272,30 +271,24 @@ public IActionResult CheckEmpCode(int empCode)
     return Ok(new { exists = false });
 }
 
-
-
-    [HttpPost("login")]
+[HttpPost("login")]
 public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
 {
-    // Validate request
     if (loginRequest.EmpCode == 0 || string.IsNullOrEmpty(loginRequest.Password))
     {
         return BadRequest(new { message = "Employee Code and Password are required." });
     }
 
-    // Check if the employee exists in the database
     var employee = Seeder.GetEmployeeByEmpCode(loginRequest.EmpCode);
     if (employee == null)
     {
         return Unauthorized(new { message = "Employee not found. Please sign up." });
     }
 
-    // Check if the password is correct
-    if (employee.Password == loginRequest.Password)
+    // Hash the incoming password and compare it
+    string hashedPassword = PasswordHelper.HashPassword(loginRequest.Password);
+    if (employee.Password == hashedPassword)
     {
-        // Console.WriteLine(employee.Password);
-        // Console.WriteLine(loginRequest.Password);
-        // In a real application, you would return a token or session information
         return Ok(new { message = "Login successful", employeeId = loginRequest.EmpCode });
     }
     else
@@ -303,6 +296,7 @@ public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         return Unauthorized(new { message = "Invalid credentials. Please try again." });
     }
 }
+
 
 //updating already existing data 
 
