@@ -137,19 +137,27 @@ public class EmployeeController : ControllerBase
 
         return Ok(employees);  // Return 200 OK with the list of employees
     }
-
-    [HttpPost("signup")]
+[HttpPost("signup")]
 public async Task<IActionResult> Signup([FromBody] Signup employee)
 {
+    // List of allowed positions
+    var allowedPositions = new List<string> { "Project Manager", "General Manager", "Other Managers" };
+
+    // Validate model state and position
     if (ModelState.IsValid)
     {
+        // Check if the position is valid
+        if (!allowedPositions.Contains(employee.Position))
+        {
+            return BadRequest(new { message = "Invalid position. Only Project Manager, General Manager, and Other Managers are allowed." });
+        }
+
         try
         {
             // Check if the employee already exists by EmpCode
             if (await Seeder.EmployeeExists(employee.EmpCode))
             {
                 Console.WriteLine($"Employee with EmpCode {employee.EmpCode} already exists.");
-                // Return success but notify that the employee already exists
                 return Ok(new { message = "Employee with this EmpCode already exists." });
             }
 
