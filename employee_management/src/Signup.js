@@ -166,7 +166,7 @@ export default function Signup() {
                         <Input name="Position" placeholder="Position" value={formData.Position} onChange={handleChange} required />
                     </InputWrapper>
                     <CheckboxLabel>
-                        <input type="checkbox" required /> I agree to all statements in <a href="/terms">Terms of service</a>
+                        <input type="checkbox" required /> I agree to all statements in <a href="/terms"> Terms of service</a>
                     </CheckboxLabel>
                     <Button type="submit">REGISTER</Button>
                 </Form>

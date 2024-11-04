@@ -189,6 +189,14 @@ public class EmployeeController : ControllerBase
         return BadRequest(new { message = "Invalid employee data provided." });
     }
 
+[HttpGet("checkEmpCode/{empCode}")]
+public IActionResult CheckEmpCode(int empCode)
+{
+    bool exists = DataSeeder.EmployeeExists(empCode);
+    return Ok(new { exists });
+}
+
+
     [HttpPost("login")]
 public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
 {
