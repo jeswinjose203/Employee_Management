@@ -11,8 +11,8 @@ using employee_management_backend.Data;
 namespace employee_management_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241104091053_CreateSignupAndLoginRequestTables")]
-    partial class CreateSignupAndLoginRequestTables
+    [Migration("20241105125101_InitialMigrate")]
+    partial class InitialMigrate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

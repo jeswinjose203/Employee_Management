@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace employee_management_backend.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateSignupAndLoginRequestTables : Migration
+    public partial class InitialMigrate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

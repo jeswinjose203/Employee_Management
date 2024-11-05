@@ -25,6 +25,47 @@ public class EmployeeController : ControllerBase
         }
     }
     
+
+        
+[HttpPost("handleexcel")]
+public async Task<IActionResult> HandleExcelUpload([FromBody] List<Product> employees)
+{
+    if (employees == null || !employees.Any())
+    {
+        return BadRequest("No employee data provided.");
+    }
+
+    try
+    {
+        foreach (var employee in employees)
+        {
+            Console.WriteLine($"Processing employee: {employee.EmpCode} - {employee.EmpName}");
+
+            if (DataSeeder.EmployeeExists(employee.EmpCode))
+            {
+                Console.WriteLine($"Employee with EmpCode {employee.EmpCode} already exists. Updating record.");
+                await DataSeeder.UpdateEmployeeAsync(employee);  // Update if exists
+                Console.WriteLine($"Employee {employee.EmpCode} updated successfully.");
+            }
+            else
+            {
+                await DataSeeder.AddEmployeeAsync(employee);  // Add if doesn't exist
+                Console.WriteLine($"Employee {employee.EmpCode} added successfully.");
+            }
+        }
+
+        return Ok(new { message = "Employees processed successfully", count = employees.Count });
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error during excel upload: {ex.Message}");
+        return StatusCode(500, new { message = "Failed to process employees.", error = ex.Message });
+    }
+}
+
+
+
+
     // Method to get billed members
     [HttpGet("billedmembers")] // This will map to /employee/billedmembers
     public ActionResult<List<Product>> GetBilledMembers()

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Button, Input, Select, Form, Space, Row, Col, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import skillsData from '../static/skills.json';
+import UploadExcel from '../UploadExcel';
+import { Modal } from 'antd';
+
 
 const { Option } = Select;
 
@@ -11,7 +14,7 @@ const Profile = () => {
   const [isEmpCodeValid, setIsEmpCodeValid] = useState(false);
   const [employeeData, setEmployeeData] = useState(null); // State to store employee data
   const [form] = Form.useForm();
-
+  const [showUploadExcel, setShowUploadExcel] = useState(false); // New state to control modal
   const handleCheckEmpCode = async () => {
     const empCode = form.getFieldValue('empCode');
     try {
@@ -63,7 +66,12 @@ const Profile = () => {
     }
   }, [isEmpCodeValid, employeeData, form]);
   
-
+  const handleUploadExcel = () => {
+    setShowUploadExcel(true);
+  };
+  const closeUploadExcel = () => {
+    setShowUploadExcel(false);
+  };
   const handleFormSubmit = async (values) => {
     if (!isEmpCodeValid) {
       message.error('Please check the EmpCode first.');
@@ -105,6 +113,9 @@ const Profile = () => {
             </Form.Item>
 
             <Button type="primary" onClick={handleCheckEmpCode}>Check EmpCode</Button>
+            {/* Upload Excel button to open modal */}
+            <Button type="primary" onClick={handleUploadExcel}>Upload Excel</Button>
+          
 
             <Form.Item
               label="Name"
@@ -186,6 +197,14 @@ const Profile = () => {
           </Form>
         </Col>
       </Row>
+      <Modal
+        title="Upload Excel"
+        open={showUploadExcel}
+        onCancel={closeUploadExcel}
+        footer={null}
+      >
+        <UploadExcel />
+      </Modal>
     </div>
   );
 };
