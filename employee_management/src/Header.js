@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Avatar } from 'antd';
 import { FaUserCircle } from 'react-icons/fa';
 import logo from "./image/logo.png";
 
 const Header = ({ imageUrl }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate(); // Use useNavigate to programmatically navigate
   let timeoutId;
 
   const handleMouseEnter = () => {
@@ -19,6 +20,11 @@ const Header = ({ imageUrl }) => {
     timeoutId = setTimeout(() => {
       setShowDropdown(false);
     }, 500);  // Adjust delay as needed (500ms here)
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken'); // Remove the authentication token
+    navigate('/login'); // Redirect to login page
   };
 
   return (
@@ -46,7 +52,7 @@ const Header = ({ imageUrl }) => {
               <li>
                 <Link to="/profile">Profile</Link>
               </li>
-              {/* Add other dropdown items as needed */}
+              <li onClick={handleLogout}>Logout</li> {/* Logout option */}
             </ul>
           </div>
         )}
@@ -56,3 +62,4 @@ const Header = ({ imageUrl }) => {
 };
 
 export default Header;
+

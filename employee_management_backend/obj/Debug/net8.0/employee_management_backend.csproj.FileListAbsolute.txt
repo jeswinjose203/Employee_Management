@@ -290,3 +290,4 @@ C:\Users\bharath.r\Documents\Emp_Management\employee_management_backend\obj\Debu
 C:\Users\bharath.r\Documents\Emp_Management\employee_management_backend\obj\Debug\net8.0\employee_management_backend.pdb
 C:\Users\bharath.r\Documents\Emp_Management\employee_management_backend\obj\Debug\net8.0\employee_management_backend.genruntimeconfig.cache
 C:\Users\bharath.r\Documents\Emp_Management\employee_management_backend\obj\Debug\net8.0\ref\employee_management_backend.dll
+C:\Users\jeswin.j\Documents\Employee_Management\employee_management_backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

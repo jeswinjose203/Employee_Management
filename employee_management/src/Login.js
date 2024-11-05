@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaIdBadge, FaLock } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 
 const LoginContainer = styled.div`
   display: flex;
@@ -11,7 +12,7 @@ const LoginContainer = styled.div`
   padding: 1rem;
 `;
 
-const FormContainer = styled.form` /* Change to form for proper submission */
+const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -101,6 +102,7 @@ export default function Login() {
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate(); // Initialize useNavigate for programmatic navigation
 
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -110,38 +112,34 @@ export default function Login() {
     e.preventDefault();
 
     const loginPayload = {
-        EmpCode: parseInt(loginData.employeeId, 10), // Ensure it's an integer
-        Password: loginData.password
+      EmpCode: parseInt(loginData.employeeId, 10),
+      Password: loginData.password,
     };
 
     try {
-        const response = await fetch('http://localhost:5001/employee/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(loginPayload)
-        });
+      const response = await fetch('http://localhost:5001/employee/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginPayload),
+      });
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log("Login successful", data);
-            // Redirect to MainContent
-            window.location.href = "/MainContent"; // Change this if you're using react-router
-        } else {
-            const errorData = await response.json();
-            console.error("Login failed:", errorData.message);
-            // Optionally, redirect to Signup page if not found
-            if (errorData.message.includes("not found")) {
-                window.location.href = "/signup";
-            }
-        }
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login successful", data);
+        localStorage.setItem('authToken', data.employeeId); // Store the token or ID in localStorage
+        navigate('/MainContent'); // Use navigate to redirect to MainContent
+      } else {
+        const errorData = await response.json();
+        console.error("Login failed:", errorData.message);
+        setErrorMessage(errorData.message); // Set error message to display
+      }
     } catch (error) {
-        console.error("Error during login:", error);
+      console.error("Error during login:", error);
+      setErrorMessage("An unexpected error occurred."); // Set a generic error message
     }
-};
-
-
+  };
 
   return (
     <LoginBody>

@@ -1,5 +1,5 @@
-import React,{ useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { Layout } from 'antd';
 import Header from './Header'; // Assuming this is your custom Header component
 import MainContent from './MainContent'; // Main content component
@@ -34,6 +34,10 @@ function AppContent() {
     setImageUrl(url);
   };
 
+  const isAuthenticated = () => {
+    return localStorage.getItem('authToken') !== null; // Check if the user is authenticated
+  };
+
   return (
     <div className="App">
       <Layout style={{ minHeight: '100vh' }}>
@@ -49,17 +53,17 @@ function AppContent() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/MainContent" element={<MainContent />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/billed_members" element={<BilledMembers />} />
-              <Route path="/unbilled_members" element={<UnBilled_Members />} />
-              <Route path="/bench_members" element={<Bench_Members />} />
-              <Route path="/unbenched_members" element={<UnBenched_Members />} />
-              <Route path="/shadow_resources" element={<Shadow_Resources />} />
-              <Route path="/partially_billable" element={<Partially_Billable />} />
-              <Route path="/project_buffer_members" element={<Project_Buffer_Members />} />
-              <Route path="/profile" element={<Profile profilePhoto='profilePhoto' setProfilePhoto={setProfilePhoto}  />} />
-              {/* profilePhoto={profilePhoto} setProfilePhoto={setProfilePhoto} */}
+              {/* Protected Routes */}
+              <Route path="/MainContent" element={isAuthenticated() ? <MainContent /> : <Navigate to="/login" />} />
+              <Route path="/billed_members" element={isAuthenticated() ? <BilledMembers /> : <Navigate to="/login" />} />
+              <Route path="/unbilled_members" element={isAuthenticated() ? <UnBilled_Members /> : <Navigate to="/login" />} />
+              <Route path="/bench_members" element={isAuthenticated() ? <Bench_Members /> : <Navigate to="/login" />} />
+              <Route path="/unbenched_members" element={isAuthenticated() ? <UnBenched_Members /> : <Navigate to="/login" />} />
+              <Route path="/shadow_resources" element={isAuthenticated() ? <Shadow_Resources /> : <Navigate to="/login" />} />
+              <Route path="/partially_billable" element={isAuthenticated() ? <Partially_Billable /> : <Navigate to="/login" />} />
+              <Route path="/project_buffer_members" element={isAuthenticated() ? <Project_Buffer_Members /> : <Navigate to="/login" />} />
+              <Route path="/profile" element={isAuthenticated() ? <Profile profilePhoto={profilePhoto} setProfilePhoto={setProfilePhoto} /> : <Navigate to="/login" />} />
             </Routes>
           </Content>
         </Layout>
