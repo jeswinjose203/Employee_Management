@@ -29,9 +29,11 @@ const Header = ({ imageUrl }) => {
 
   return (
     <header className="header">
-      {/* Logo */}
+      {/* Logo wrapped in a Link */}
       <div className="header__logo">
-        <img src={logo} alt="Logo" />
+        <Link to="/maincontent">
+          <img src={logo} alt="Logo" />
+        </Link>
       </div>
 
       {/* Profile Icon with Dropdown */}
@@ -62,4 +64,3 @@ const Header = ({ imageUrl }) => {
 };
 
 export default Header;
-
