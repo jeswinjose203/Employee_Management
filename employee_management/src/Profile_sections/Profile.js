@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import skillsData from '../static/skills.json';
 import UploadExcel from '../UploadExcel';
 import { Modal } from 'antd';
-
+import { UploadOutlined } from '@ant-design/icons'; // Import an icon for the button
 
 const { Option } = Select;
 
@@ -15,6 +15,7 @@ const Profile = () => {
   const [employeeData, setEmployeeData] = useState(null); // State to store employee data
   const [form] = Form.useForm();
   const [showUploadExcel, setShowUploadExcel] = useState(false); // New state to control modal
+
   const handleCheckEmpCode = async () => {
     const empCode = form.getFieldValue('empCode');
     try {
@@ -65,7 +66,7 @@ const Profile = () => {
       });
     }
   }, [isEmpCodeValid, employeeData, form]);
-  
+
   const handleUploadExcel = () => {
     setShowUploadExcel(true);
   };
@@ -98,10 +99,21 @@ const Profile = () => {
   const handleGoBack = () => navigate(-1);
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: '20px', position: 'relative' }}> {/* Make this relative for absolute positioning */}
       <Button type="primary" onClick={handleGoBack}>Go Back</Button>
 
-      <Row gutter={16} style={{ marginTop: '20px' }}>
+      {/* Upload Excel button in the top right corner */}
+      <Button 
+        type="default" 
+        shape="round" 
+        icon={<UploadOutlined />} 
+        onClick={handleUploadExcel} 
+        style={{ position: 'absolute', top: 20, right: 20 }} // Absolute positioning
+      >
+        Upload Excel
+      </Button>
+
+      <Row gutter={16} style={{ marginTop: '60px' }}> {/* Adjust margin-top to avoid overlap with the button */}
         <Col xs={24} sm={18}>
           <Form layout="vertical" onFinish={handleFormSubmit} form={form}>
             <Form.Item
@@ -113,9 +125,6 @@ const Profile = () => {
             </Form.Item>
 
             <Button type="primary" onClick={handleCheckEmpCode}>Check EmpCode</Button>
-            {/* Upload Excel button to open modal */}
-            <Button type="primary" onClick={handleUploadExcel}>Upload Excel</Button>
-          
 
             <Form.Item
               label="Name"
@@ -125,24 +134,17 @@ const Profile = () => {
               <Input placeholder="Enter your name" disabled={!isEmpCodeValid} />
             </Form.Item>
 
-            {/* <Form.Item label="Email" name="email">
-              <Input placeholder="Enter your email" disabled={!isEmpCodeValid} />
-            </Form.Item> */}
-
-
-
             <Form.Item label="Resource Status" name="memberStatus">
-  <Select placeholder="Select status" disabled={!isEmpCodeValid}>
-    <Option value="Billed Member">Billed Member</Option>
-    <Option value="Unbilled">Unbilled</Option>
-    <Option value="Bench">Bench</Option>
-    <Option value="Unbenched">Unbenched</Option>
-    <Option value="Shadow">Shadow</Option>
-    <Option value="Partially Billable">Partially Billable</Option>
-    <Option value="Project Buffer">Project Buffer</Option>
-  </Select>
-</Form.Item>
-
+              <Select placeholder="Select status" disabled={!isEmpCodeValid}>
+                <Option value="Billed Member">Billed Member</Option>
+                <Option value="Unbilled">Unbilled</Option>
+                <Option value="Bench">Bench</Option>
+                <Option value="Unbenched">Unbenched</Option>
+                <Option value="Shadow">Shadow</Option>
+                <Option value="Partially Billable">Partially Billable</Option>
+                <Option value="Project Buffer">Project Buffer</Option>
+              </Select>
+            </Form.Item>
 
             <Form.Item label="Location" name="location">
               <Select placeholder="Enter your location" disabled={!isEmpCodeValid}>
@@ -197,6 +199,7 @@ const Profile = () => {
           </Form>
         </Col>
       </Row>
+
       <Modal
         title="Upload Excel"
         open={showUploadExcel}
