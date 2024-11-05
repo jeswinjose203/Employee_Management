@@ -139,6 +139,7 @@ const BilledMembers = () => {
           onCancel={handleModalClose}
           footer={null}
         >
+          <p><strong>EmpCode</strong> {selectedMember.empCode}</p>
           <p><strong>Name:</strong> {selectedMember.empName}</p> {/* Use empName */}
           <p><strong>Name:</strong> {selectedMember.empName}</p> {/* Use empName */}
           <p><strong>Location:</strong> {selectedMember.location}</p> {/* Use location */}
