@@ -4471,19 +4471,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\bharath.r\\.nuget\\packages\\": {}
+    "C:\\Users\\jeswin.j\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\bharath.r\\Documents\\Emp_Management\\employee_management_backend\\employee_management_backend.csproj",
+      "projectUniqueName": "C:\\Users\\jeswin.j\\Documents\\Employee_Management\\employee_management_backend\\employee_management_backend.csproj",
       "projectName": "employee_management_backend",
-      "projectPath": "C:\\Users\\bharath.r\\Documents\\Emp_Management\\employee_management_backend\\employee_management_backend.csproj",
-      "packagesPath": "C:\\Users\\bharath.r\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\bharath.r\\Documents\\Emp_Management\\employee_management_backend\\obj\\",
+      "projectPath": "C:\\Users\\jeswin.j\\Documents\\Employee_Management\\employee_management_backend\\employee_management_backend.csproj",
+      "packagesPath": "C:\\Users\\jeswin.j\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jeswin.j\\Documents\\Employee_Management\\employee_management_backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\bharath.r\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\jeswin.j\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
